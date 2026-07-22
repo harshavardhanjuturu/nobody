@@ -9,31 +9,37 @@ function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-// Helper to find user by flexible phone (with/without +91/10-digit) or email
 async function findUserByPhoneOrEmail(input: string, inputEmail?: string) {
   if (!input && !inputEmail) return null;
-  const cleaned = (input || '').trim();
-  const digitsOnly = cleaned.replace(/\D/g, '');
+  const cleanedEmail = (inputEmail || (input && input.includes('@') ? input : '')).trim().toLowerCase();
+
+  // 1. Prioritize strict email matching first
+  if (cleanedEmail) {
+    const userByEmail = await db.user.findFirst({
+      where: { email: cleanedEmail },
+    });
+    if (userByEmail) return userByEmail;
+  }
+
+  // 2. Search by phone number (excluding placeholder phones)
+  const cleanedPhone = (input || '').trim();
+  const digitsOnly = cleanedPhone.replace(/\D/g, '');
   const tenDigits = digitsOnly.length >= 10 ? digitsOnly.slice(-10) : digitsOnly;
 
-  const conditions: any[] = [];
-  if (cleaned) {
-    conditions.push({ phoneNumber: cleaned });
-    if (tenDigits) {
-      conditions.push({ phoneNumber: `+91${tenDigits}` });
-      conditions.push({ phoneNumber: tenDigits });
-    }
-    if (cleaned.includes('@')) {
-      conditions.push({ email: cleaned.toLowerCase() });
-    }
-  }
-  if (inputEmail) {
-    conditions.push({ email: inputEmail.toLowerCase() });
+  if (tenDigits && tenDigits !== '0000000000') {
+    const userByPhone = await db.user.findFirst({
+      where: {
+        OR: [
+          { phoneNumber: cleanedPhone },
+          { phoneNumber: `+91${tenDigits}` },
+          { phoneNumber: tenDigits },
+        ],
+      },
+    });
+    if (userByPhone) return userByPhone;
   }
 
-  return await db.user.findFirst({
-    where: { OR: conditions },
-  });
+  return null;
 }
 
 export async function requestOTP(phoneNumber: string, email: string, isRegister?: boolean) {
@@ -58,8 +64,8 @@ export async function requestOTP(phoneNumber: string, email: string, isRegister?
       if (existingUser) {
         targetEmail = existingUser.email;
         targetPhone = existingUser.phoneNumber || formattedPhone;
-      } else if (!targetEmail) {
-        return { success: false, error: 'Account not found for this email. Please register first.' };
+      } else {
+        return { success: false, notRegistered: true, error: 'Account not found for this email. Please register first.' };
       }
     }
 
@@ -103,22 +109,30 @@ export async function requestOTP(phoneNumber: string, email: string, isRegister?
   }
 }
 
-export async function verifyOTP(phoneNumber: string, otp: string, name?: string) {
+export async function verifyOTP(phoneNumber: string, otp: string, name?: string, email?: string) {
   try {
     if (!otp) {
       return { success: false, error: 'Verification code is required.' };
     }
 
+    const cleanedEmail = (email || '').trim().toLowerCase();
+    const cleanedPhone = (phoneNumber || '').trim();
+
+    const conditions: any[] = [];
+    if (cleanedEmail) conditions.push({ email: cleanedEmail });
+    if (cleanedPhone && cleanedPhone !== '+910000000000') conditions.push({ phoneNumber: cleanedPhone });
+
     const session = await db.oTPSession.findFirst({
       where: {
         otp: otp.trim(),
         verified: false,
+        ...(conditions.length > 0 ? { OR: conditions } : {}),
       },
       orderBy: { createdAt: 'desc' },
     });
 
     if (!session) {
-      return { success: false, error: 'Invalid or expired verification code.' };
+      return { success: false, error: 'Invalid or expired verification code for this account.' };
     }
 
     if (new Date() > session.expiresAt) {
@@ -137,7 +151,7 @@ export async function verifyOTP(phoneNumber: string, otp: string, name?: string)
     if (user && user.isSuspended) {
       return {
         success: false,
-        error: `⛔ Account Suspended: ${user.suspensionReason || 'Your account has been suspended due to policy violations. Contact admin.'}`,
+        error: `Account Suspended: ${user.suspensionReason || 'Your account has been suspended due to policy violations. Contact admin.'}`,
       };
     }
 
@@ -175,23 +189,31 @@ export async function verifyOTP(phoneNumber: string, otp: string, name?: string)
   }
 }
 
-export async function verifyOTPForOnboarding(phoneNumber: string, otp: string) {
+export async function verifyOTPForOnboarding(phoneNumber: string, otp: string, email?: string) {
   try {
     if (!otp) {
       return { success: false, error: 'Verification code is required.' };
     }
 
-    // Match by OTP and unverified state (and optionally email/phone)
+    const cleanedEmail = (email || '').trim().toLowerCase();
+    const cleanedPhone = (phoneNumber || '').trim();
+
+    const conditions: any[] = [];
+    if (cleanedEmail) conditions.push({ email: cleanedEmail });
+    if (cleanedPhone && cleanedPhone !== '+910000000000') conditions.push({ phoneNumber: cleanedPhone });
+
+    // Match by OTP, unverified state, and target email/phone
     const session = await db.oTPSession.findFirst({
       where: { 
         otp: otp.trim(), 
-        verified: false 
+        verified: false,
+        ...(conditions.length > 0 ? { OR: conditions } : {}),
       },
       orderBy: { createdAt: 'desc' },
     });
 
     if (!session) {
-      return { success: false, error: 'Invalid verification code.' };
+      return { success: false, error: 'Invalid verification code for this email account.' };
     }
 
     // Check expiry
@@ -208,7 +230,7 @@ export async function verifyOTPForOnboarding(phoneNumber: string, otp: string) {
       if (existingUser.isSuspended) {
         return {
           success: false,
-          error: `⛔ Account Suspended: ${existingUser.suspensionReason || 'Your account has been suspended due to policy violations.'}`,
+          error: `Account Suspended: ${existingUser.suspensionReason || 'Your account has been suspended due to policy violations.'}`,
         };
       }
       // Already registered — sign in directly
@@ -279,7 +301,7 @@ export async function registerUser(
       await sendNotificationEmail(
         email,
         'Welcome to Nobody!',
-        `Welcome to Nobody, ${name}! 🎉`,
+        `Welcome to Nobody, ${name}!`,
         `Your account has been successfully created and verified. You can now access campus dining, peer food deliveries, skill sharing, freelancing, and community events directly from your portal.`
       );
     }

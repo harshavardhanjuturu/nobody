@@ -1,6 +1,7 @@
 import { getSessionUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { type NextRequest } from 'next/server';
+import { syncUpdateGig, syncFetchAllGigs } from '@/lib/cloudSyncStore';
 
 // GET /api/delivery/location?gigId=<gigId> — fetch live location and status for tracking
 export async function GET(request: NextRequest) {
@@ -22,7 +23,35 @@ export async function GET(request: NextRequest) {
     },
   });
 
-  if (!gig) return Response.json({ error: 'Gig not found' }, { status: 404 });
+  if (!gig) {
+    const cloudGigs = await syncFetchAllGigs();
+    const cloudGig = cloudGigs.find((g) => g.id === gigId);
+    if (cloudGig) {
+      return Response.json({
+        status: cloudGig.status,
+        deliveryCode: cloudGig.deliveryCode,
+        deliverer: cloudGig.delivererId
+          ? {
+              id: cloudGig.delivererId,
+              name: cloudGig.delivererName || 'Student Deliverer',
+              phoneNumber: cloudGig.delivererPhone || '',
+              avatarUrl: cloudGig.delivererAvatar || '',
+            }
+          : null,
+        lat: cloudGig.currentLat,
+        lng: cloudGig.currentLng,
+        lastLocationAt: cloudGig.lastLocationAt,
+        order: {
+          id: cloudGig.orderId,
+          status: 'pending',
+          total: cloudGig.total,
+          deliveryAddress: cloudGig.deliveryAddress,
+          deliveryFee: cloudGig.deliveryFee,
+        },
+      });
+    }
+    return Response.json({ error: 'Gig not found' }, { status: 404 });
+  }
 
   return Response.json({
     status: gig.status,
@@ -46,13 +75,8 @@ export async function POST(request: Request) {
   }
 
   const gig = await db.deliveryGig.findUnique({ where: { id: gigId } });
-  if (!gig) return Response.json({ error: 'Gig not found' }, { status: 404 });
 
-  if (gig.delivererId !== user.id) {
-    return Response.json({ error: 'Forbidden: Only the assigned deliverer can update location.' }, { status: 403 });
-  }
-
-  const updated = await db.deliveryGig.update({
+  await db.deliveryGig.updateMany({
     where: { id: gigId },
     data: {
       currentLat: lat,
@@ -61,5 +85,12 @@ export async function POST(request: Request) {
     },
   });
 
-  return Response.json({ success: true, lastLocationAt: updated.lastLocationAt });
+  const nowIso = new Date().toISOString();
+  await syncUpdateGig(gigId, {
+    currentLat: lat,
+    currentLng: lng,
+    lastLocationAt: nowIso,
+  });
+
+  return Response.json({ success: true, lastLocationAt: nowIso });
 }

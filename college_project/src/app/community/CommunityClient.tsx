@@ -81,7 +81,7 @@ export default function CommunityClient({ groups, events, userId }: CommunityCli
 
     const res = await joinGroup(groupId);
     if (res.success) {
-      addToast('Welcome to the club! 🎉', 'success');
+      addToast('Welcome to the club.', 'success');
       startTransition(() => { router.refresh(); });
     } else {
       // Revert on failure
@@ -108,7 +108,7 @@ export default function CommunityClient({ groups, events, userId }: CommunityCli
 
     const res = await rsvpEvent(eventId);
     if (res.success) {
-      addToast("You're in! See you at the event. 🎟️", 'success');
+      addToast("You're registered for the event.", 'success');
       startTransition(() => { router.refresh(); });
     } else {
       // Revert on failure
@@ -130,7 +130,7 @@ export default function CommunityClient({ groups, events, userId }: CommunityCli
     const res = await createCommunityGroup(groupName, groupDesc);
     setGroupLoading(false);
     if (res.success) {
-      addToast('Club created successfully! 🏆', 'success');
+      addToast('Club created successfully.', 'success');
       setShowCreateGroup(false);
       setGroupName('');
       setGroupDesc('');
@@ -155,7 +155,7 @@ export default function CommunityClient({ groups, events, userId }: CommunityCli
     );
     setEventLoading(false);
     if (res.success) {
-      addToast('Event created! 📅', 'success');
+      addToast('Event created.', 'success');
       setShowCreateEvent(false);
       setEventTitle('');
       setEventDesc('');
@@ -289,7 +289,7 @@ export default function CommunityClient({ groups, events, userId }: CommunityCli
                         disabled={rsvpedEventIds.has(event.id)}
                         className="px-5 py-2 rounded-full bg-primary dark:bg-white text-white dark:text-black text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        {rsvpedEventIds.has(event.id) ? '✓ RSVPed' : 'RSVP'}
+                        {rsvpedEventIds.has(event.id) ? 'RSVPed' : 'RSVP'}
                       </button>
                     </div>
                   </div>
@@ -354,7 +354,7 @@ export default function CommunityClient({ groups, events, userId }: CommunityCli
                       disabled={joinedGroupIds.has(group.id)}
                       className="px-5 py-2 rounded-full bg-surface-container-low dark:bg-surface-container-high text-primary dark:text-white text-xs font-semibold hover:scale-105 active:scale-95 transition-all cursor-pointer border border-outline disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      {joinedGroupIds.has(group.id) ? '✓ Joined' : 'Join Club'}
+                      {joinedGroupIds.has(group.id) ? 'Joined' : 'Join Club'}
                     </button>
                   </div>
                 </div>

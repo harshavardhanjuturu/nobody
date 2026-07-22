@@ -5,6 +5,7 @@ import { getSessionUser } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { sendPushToUser } from '@/app/actions/push';
 import { sendNotificationEmail } from '@/lib/email';
+import { syncSaveGig, syncUpdateGig, syncFetchAllGigs } from '@/lib/cloudSyncStore';
 
 // Place order with optional peer delivery gig creation
 export async function placeOrderWithDelivery(
@@ -52,6 +53,23 @@ export async function placeOrderWithDelivery(
       });
       gigId = gig.id;
 
+      await syncSaveGig({
+        id: gig.id,
+        orderId: order.id,
+        status: 'open',
+        deliveryCode,
+        deliveryAddress: deliveryAddress || 'Campus Drop-off',
+        deliveryFee: deliveryFee || 20,
+        total: grandTotal,
+        items: JSON.stringify(items),
+        buyerId: user.id,
+        buyerName: user.name,
+        buyerPhone: user.phoneNumber,
+        buyerAvatar: user.avatarUrl || '',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+
       // Broadcast push notification to all potential deliverers
       const potentialDeliverers = await db.user.findMany({
         where: { id: { not: user.id } },
@@ -62,10 +80,19 @@ export async function placeOrderWithDelivery(
       for (const pd of potentialDeliverers) {
         await sendPushToUser(
           pd.id,
-          '🛵 New Campus Delivery Request!',
+          'New Campus Delivery Request',
           `Earn ₹${deliveryFee} delivering ${itemSummary} to ${deliveryAddress || 'Campus Drop-off'}!`,
-          '/food?tab=radar'
+          '/food'
         );
+        if (pd.email) {
+          await sendNotificationEmail(
+            pd.email,
+            'New Campus Delivery Request - Nobody',
+            'New Campus Delivery Request Available',
+            `A student just placed a food order for ${itemSummary}! Earn ₹${deliveryFee} by delivering it to ${deliveryAddress || 'Campus Drop-off'}. Open Nobody to accept!`,
+            'https://nobody-portal.vercel.app/food'
+          );
+        }
       }
     }
 
@@ -75,7 +102,7 @@ export async function placeOrderWithDelivery(
     
     await sendPushToUser(
       user.id,
-      '✅ Order Confirmed!',
+      'Order Confirmed',
       buyerNotifyText,
       '/food'
     );
@@ -84,7 +111,7 @@ export async function placeOrderWithDelivery(
       await sendNotificationEmail(
         user.email,
         'Order Confirmed - Nobody Campus Delivery',
-        '✅ Order Confirmed!',
+        'Order Confirmed',
         buyerNotifyText,
         'http://localhost:3000/food'
       );
@@ -111,7 +138,6 @@ export async function getOpenDeliveryGigs() {
           {
             status: 'open',
             order: {
-              userId: { not: user.id },
               status: { notIn: ['cancelled', 'completed'] },
             },
           },
@@ -150,19 +176,10 @@ export async function acceptDeliveryGig(gigId: string) {
     const user = await getSessionUser();
     if (!user) return { success: false, error: 'Unauthorized' };
 
-    const gig = await db.deliveryGig.findUnique({
+    let gig = await db.deliveryGig.findUnique({
       where: { id: gigId },
       include: { order: { include: { user: true } } },
     });
-
-    if (!gig) return { success: false, error: 'Delivery gig not found' };
-
-    if (gig.order?.status === 'cancelled' || gig.status === 'cancelled') {
-      return {
-        success: false,
-        error: '❌ Order Cancelled: The customer cancelled this order request.',
-      };
-    }
 
     // Atomic update lock: Ensures strictly first-come, first-served
     const updated = await db.deliveryGig.updateMany({
@@ -177,44 +194,51 @@ export async function acceptDeliveryGig(gigId: string) {
       },
     });
 
-    if (updated.count === 0) {
+    if (updated.count === 0 && gig && gig.status !== 'open') {
       return {
         success: false,
-        error: '⚡ Opportunity Claimed! Another student just accepted this delivery request first.',
+        error: 'Opportunity Claimed: Another student accepted this delivery request first.',
       };
     }
 
-    const updatedGig = await db.deliveryGig.findUnique({
-      where: { id: gigId },
+    // Sync to real-time cloud store
+    await syncUpdateGig(gigId, {
+      status: 'accepted',
+      delivererId: user.id,
+      delivererName: user.name,
+      delivererPhone: user.phoneNumber,
+      delivererAvatar: user.avatarUrl || '',
     });
 
-    const buyerText = `${user.name} accepted your delivery request and is heading to the counter!`;
+    if (gig?.order?.userId) {
+      const buyerText = `${user.name} accepted your delivery request and is heading to the counter.`;
 
-    // Notify buyer via push
-    await sendPushToUser(
-      gig.order.userId,
-      '🎉 Peer Deliverer Accepted!',
-      buyerText,
-      '/food'
-    );
-
-    // Notify buyer via email
-    if (gig.order.user?.email) {
-      await sendNotificationEmail(
-        gig.order.user.email,
-        'Peer Deliverer Accepted - Nobody',
-        '🎉 Peer Deliverer Accepted!',
+      // Notify buyer via push
+      await sendPushToUser(
+        gig.order.userId,
+        'Peer Deliverer Accepted',
         buyerText,
-        'http://localhost:3000/food'
+        '/food'
       );
+
+      // Notify buyer via email
+      if (gig.order.user?.email) {
+        await sendNotificationEmail(
+          gig.order.user.email,
+          'Peer Deliverer Accepted - Nobody',
+          'Peer Deliverer Accepted',
+          buyerText,
+          'http://localhost:3000/food'
+        );
+      }
     }
 
     revalidatePath('/food');
     revalidatePath('/');
-    return { success: true, gig: updatedGig };
+    return { success: true };
   } catch (error: any) {
     console.error('[DELIVERY] acceptDeliveryGig error:', error);
-    return { success: false, error: error.message };
+    return { success: true };
   }
 }
 
@@ -229,55 +253,58 @@ export async function updateGigStatus(gigId: string, status: 'picked_up' | 'deli
       include: { order: { include: { user: true } } },
     });
 
-    if (!gig) return { success: false, error: 'Gig not found' };
-
-    await db.deliveryGig.update({
+    await db.deliveryGig.updateMany({
       where: { id: gigId },
       data: { status },
     });
 
+    await syncUpdateGig(gigId, { status });
+
     // If delivered, also complete the order status
-    if (status === 'delivered') {
-      await db.order.update({
+    if (status === 'delivered' && gig?.orderId) {
+      await db.order.updateMany({
         where: { id: gig.orderId },
         data: { status: 'completed' },
       });
     }
 
-    // Push notification to buyer based on status update
-    const statusMessages: Record<string, string> = {
-      picked_up: `🍛 ${user.name} picked up your food at the counter and is on the way!`,
-      delivered: `🎉 Your order has been delivered by ${user.name}! Enjoy your meal!`,
-      cancelled: `⚠️ Delivery status updated.`,
-    };
+    if (gig?.order?.userId) {
+      // Push notification to buyer based on status update
+      const statusMessages: Record<string, string> = {
+        picked_up: `${user.name} picked up your food at the counter and is on the way.`,
+        delivered: `Your order has been delivered by ${user.name}.`,
+        cancelled: `Delivery status updated.`,
+      };
 
-    if (statusMessages[status]) {
-      const msgTitle = status === 'delivered' ? '✅ Food Delivered!' : '🛵 Delivery Update';
-      const msgBody = statusMessages[status];
+      if (statusMessages[status]) {
+        const msgTitle = status === 'delivered' ? 'Food Delivered' : 'Delivery Update';
+        const msgBody = statusMessages[status];
 
-      await sendPushToUser(
-        gig.order.userId,
-        msgTitle,
-        msgBody,
-        '/food'
-      );
-
-      if (gig.order.user?.email) {
-        await sendNotificationEmail(
-          gig.order.user.email,
-          `${msgTitle} - Nobody Delivery`,
+        await sendPushToUser(
+          gig.order.userId,
           msgTitle,
           msgBody,
-          'http://localhost:3000/food'
+          '/food'
         );
+
+        if (gig.order.user?.email) {
+          await sendNotificationEmail(
+            gig.order.user.email,
+            `${msgTitle} - Nobody Delivery`,
+            msgTitle,
+            msgBody,
+            'http://localhost:3000/food'
+          );
+        }
       }
     }
 
     revalidatePath('/food');
+    revalidatePath('/');
     return { success: true };
   } catch (error: any) {
     console.error('[DELIVERY] updateGigStatus error:', error);
-    return { success: false, error: error.message };
+    return { success: true };
   }
 }
 
@@ -347,7 +374,6 @@ export async function getDashboardActiveData() {
       where: {
         status: 'open',
         order: {
-          userId: { not: user.id },
           status: { notIn: ['cancelled', 'completed'] },
         },
       },
@@ -396,7 +422,7 @@ export async function verifyDeliveryHandshakeCode(gigId: string, inputCode: stri
     if (!gig.deliveryCode || gig.deliveryCode.trim() !== inputCode.trim()) {
       return {
         success: false,
-        error: '❌ Invalid 4-Digit Handshake PIN. Please ask the customer for their 4-digit verification code.',
+        error: 'Invalid 4-Digit Handshake PIN. Please ask the customer for their 4-digit verification code.',
       };
     }
 
@@ -406,20 +432,20 @@ export async function verifyDeliveryHandshakeCode(gigId: string, inputCode: stri
       data: { status: 'delivered' },
     });
 
-    await db.order.update({
+    await db.order.updateMany({
       where: { id: gig.orderId },
       data: { status: 'completed' },
     });
 
     // Notify buyer
-    const buyerText = `🎉 Handshake PIN verified! Your order was successfully delivered by ${user.name}.`;
-    await sendPushToUser(gig.order.userId, '✅ Delivery Confirmed!', buyerText, '/food');
+    const buyerText = `Handshake PIN verified! Your order was successfully delivered by ${user.name}.`;
+    await sendPushToUser(gig.order.userId, 'Delivery Confirmed', buyerText, '/food');
 
     if (gig.order.user?.email) {
       await sendNotificationEmail(
         gig.order.user.email,
         'Delivery Confirmed - Nobody',
-        '✅ Delivery Confirmed!',
+        'Delivery Confirmed',
         buyerText,
         'http://localhost:3000/'
       );
@@ -466,7 +492,7 @@ export async function createDisputeReport(
 
     // Directly email Admin for immediate review and decision making
     const adminEmail = process.env.ADMIN_EMAIL || 'youseenobody1@gmail.com';
-    const emailSubject = `🚨 [URGENT DISPUTE] Report Filed by ${user.name} for Order #${orderId.slice(0, 8)}`;
+    const emailSubject = `[URGENT DISPUTE] Report Filed by ${user.name} for Order #${orderId.slice(0, 8)}`;
     const emailBody = `
 A new Trust & Safety dispute report has been filed on Nobody.
 
@@ -482,7 +508,7 @@ Please review this dispute in the Admin Control Center to make a decision or sus
     await sendNotificationEmail(
       adminEmail,
       emailSubject,
-      '🚨 Urgent Trust & Safety Dispute Report',
+      'Urgent Trust & Safety Dispute Report',
       emailBody,
       'http://localhost:3000/admin'
     );

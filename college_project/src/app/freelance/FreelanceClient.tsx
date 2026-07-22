@@ -75,7 +75,7 @@ export default function FreelanceClient({
     setLoadingRegister(false);
     if (res.success) {
       setRegistered(true);
-      addToast('You\'re now registered as a Freelancer! 🚀', 'success');
+      addToast("You're now registered as a Freelancer.", 'success');
       router.refresh();
     } else {
       addToast(res.error || 'Failed to register.', 'error');
@@ -99,7 +99,7 @@ export default function FreelanceClient({
     setLoading(false);
 
     if (res.success) {
-      addToast('Gig posted successfully! 🎯', 'success');
+      addToast('Gig posted successfully.', 'success');
       setShowModal(false);
       setTitle('');
       setDescription('');

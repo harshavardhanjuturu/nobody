@@ -54,7 +54,7 @@ export default function SkillsClient({ posts, defaultUserName, defaultUserPhone,
     setLoadingRegister(false);
     if (res.success) {
       setRegistered(true);
-      addToast('You\'re now registered as a Skill Exchanger! ⚡', 'success');
+      addToast("You're now registered as a Skill Exchanger.", 'success');
       router.refresh();
     } else {
       addToast(res.error || 'Failed to register.', 'error');
@@ -87,7 +87,7 @@ export default function SkillsClient({ posts, defaultUserName, defaultUserPhone,
     const res = await createSkillPost(title, description, skillOffered, skillWanted, userName, userPhone);
     setLoading(false);
     if (res.success) {
-      addToast('Skill swap posted! 🔄', 'success');
+      addToast('Skill swap posted.', 'success');
       setShowModal(false);
       setTitle('');
       setDescription('');

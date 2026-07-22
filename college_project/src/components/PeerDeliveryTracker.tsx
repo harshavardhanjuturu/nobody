@@ -100,7 +100,7 @@ export default function PeerDeliveryTracker({
               ? 'bg-[#8078FF]/15 text-[#004CBB] dark:text-[#8078FF] animate-pulse'
               : 'bg-[#004CBB]/15 text-[#004CBB] dark:text-[#8078FF]'
           }`}>
-            {status === 'open' ? 'Searching Peer...' : status === 'accepted' ? 'Deliverer Assigned' : status === 'picked_up' ? 'En Route 🛵' : 'Delivered 🎉'}
+            {status === 'open' ? 'Searching Peer...' : status === 'accepted' ? 'Deliverer Assigned' : status === 'picked_up' ? 'En Route' : 'Delivered'}
           </span>
 
           {/* Dispute button */}
@@ -177,7 +177,7 @@ export default function PeerDeliveryTracker({
               <div>
                 <div className="flex items-center gap-1.5">
                   <p className="text-xs text-secondary uppercase font-bold tracking-wider">Student Deliverer</p>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#004CBB]/15 text-[#004CBB] dark:text-[#8078FF]">✓ Verified</span>
+                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#004CBB]/15 text-[#004CBB] dark:text-[#8078FF]">Verified</span>
                 </div>
                 <h4 className="font-bold text-sm text-primary dark:text-white">{deliverer.name}</h4>
               </div>
@@ -255,7 +255,7 @@ export default function PeerDeliveryTracker({
               }}
               className="px-6 py-2 rounded-full bg-[#004CBB] hover:bg-[#003da1] text-white font-bold text-xs shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              ✓ Got My Food! Complete Order
+              Got My Food! Complete Order
             </button>
           </div>
         </div>

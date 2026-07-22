@@ -122,7 +122,7 @@ export default function SocialFeedClient({ initialPosts, currentUser }: SocialFe
     setSubmitting(false);
 
     if (res.success) {
-      addToast('Posted! ✨', 'success');
+      addToast('Posted successfully.', 'success');
       setComposerContent('');
       setImageUrl('');
       setShowImageInput(false);

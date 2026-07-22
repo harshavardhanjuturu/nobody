@@ -88,7 +88,7 @@ export default function MarketplaceClient({ items, defaultSellerName, defaultSel
     setLoading(false);
 
     if (res.success) {
-      addToast('Listing created! 🎉', 'success');
+      addToast('Listing created.', 'success');
       setShowModal(false);
       setTitle('');
       setDescription('');

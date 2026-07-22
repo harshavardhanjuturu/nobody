@@ -23,8 +23,8 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   requestOTP: (phoneNumber: string, email?: string, isRegister?: boolean) => Promise<{ success: boolean; error?: string; email?: string; mailError?: string | null; fallbackOtp?: string | null; otp?: string }>;
-  verifyOTP: (phoneNumber: string, otp: string, name?: string) => Promise<{ success: boolean; error?: string }>;
-  verifyOTPForOnboarding: (phoneNumber: string, otp: string) => Promise<{ success: boolean; error?: string; needsOnboarding?: boolean; email?: string; phoneNumber?: string; user?: User }>;
+  verifyOTP: (phoneNumber: string, otp: string, name?: string, email?: string) => Promise<{ success: boolean; error?: string }>;
+  verifyOTPForOnboarding: (phoneNumber: string, otp: string, email?: string) => Promise<{ success: boolean; error?: string; needsOnboarding?: boolean; email?: string; phoneNumber?: string; user?: User }>;
   registerUser: (phoneNumber: string, email: string, name: string, onboarding: { isFreelancer: boolean; isSkillExchanger: boolean; isFoodVendor: boolean }) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -61,8 +61,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return await requestOTPAction(phoneNumber, email || '', isRegister);
   };
 
-  const verifyOTP = async (phoneNumber: string, otp: string, name?: string) => {
-    const res = await verifyOTPAction(phoneNumber, otp, name);
+  const verifyOTP = async (phoneNumber: string, otp: string, name?: string, email?: string) => {
+    const res = await verifyOTPAction(phoneNumber, otp, name, email);
     if (res.success && res.user) {
       setUser(res.user as User);
       return { success: true };
@@ -70,8 +70,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { success: false, error: res.error };
   };
 
-  const verifyOTPForOnboarding = async (phoneNumber: string, otp: string) => {
-    const res = await verifyOTPForOnboardingAction(phoneNumber, otp);
+  const verifyOTPForOnboarding = async (phoneNumber: string, otp: string, email?: string) => {
+    const res = await verifyOTPForOnboardingAction(phoneNumber, otp, email);
     if (res.success && !res.needsOnboarding && res.user) {
       setUser(res.user as User);
     }

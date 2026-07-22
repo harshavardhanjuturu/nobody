@@ -21,7 +21,7 @@ export async function sendPushToUser(
     });
 
     const results = await Promise.allSettled(
-      subscriptions.map((sub) =>
+      subscriptions.map((sub: any) =>
         webpush.sendNotification(
           { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
           JSON.stringify({ title, body, url })

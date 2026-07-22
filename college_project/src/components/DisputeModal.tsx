@@ -38,7 +38,7 @@ export default function DisputeModal({
     try {
       const res = await createDisputeReport(orderId, gigId, reportedUserId, reason, details);
       if (res.success) {
-        alert('🛡️ Report Sent directly to Admin Email! Our Trust & Safety team will review the issue and contact you.');
+        alert('Report Sent directly to Admin Email! Our Trust & Safety team will review the issue and contact you.');
         if (onSuccess) onSuccess();
         onClose();
       } else {
@@ -115,7 +115,7 @@ export default function DisputeModal({
               disabled={loading}
               className="flex-1 py-3 rounded-full bg-primary dark:bg-white text-white dark:text-black font-bold text-xs shadow-md hover:scale-105 transition-all disabled:opacity-50 cursor-pointer"
             >
-              {loading ? 'Sending to Admin...' : 'Send to Admin Email 🛡️'}
+              {loading ? 'Sending to Admin...' : 'Send to Admin Email'}
             </button>
           </div>
         </form>

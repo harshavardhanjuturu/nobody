@@ -200,6 +200,31 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [deliveryFee, setDeliveryFee] = useState('20');
 
+  // Load saved cart from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('nobody_food_cart');
+      if (saved) {
+        setCart(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.warn('Failed to parse saved cart:', e);
+    }
+  }, []);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      if (Object.keys(cart).length > 0) {
+        localStorage.setItem('nobody_food_cart', JSON.stringify(cart));
+      } else {
+        localStorage.removeItem('nobody_food_cart');
+      }
+    } catch (e) {
+      console.warn('Failed to save cart:', e);
+    }
+  }, [cart]);
+
   // Campus Delivery Radar state
   const [radarGigs, setRadarGigs] = useState<any[]>([]);
   const [dismissedGigIds, setDismissedGigIds] = useState<string[]>([]);
@@ -378,7 +403,12 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
     });
   };
 
-  const clearCart = () => setCart({});
+  const clearCart = () => {
+    setCart({});
+    try {
+      localStorage.removeItem('nobody_food_cart');
+    } catch (e) {}
+  };
 
   const cartArray = Object.values(cart);
   const cartItemCount = cartArray.reduce((acc, c) => acc + c.quantity, 0);
@@ -421,7 +451,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
 
   useEffect(() => {
     fetchRadarGigs();
-    const interval = setInterval(fetchRadarGigs, 3000);
+    const interval = setInterval(fetchRadarGigs, 2000);
     return () => clearInterval(interval);
   }, [fetchRadarGigs]);
 
@@ -429,7 +459,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
     try {
       const res = await acceptDeliveryGig(gigId);
       if (res.success) {
-        alert('🎉 Delivery gig accepted! Heading to pickup counter.');
+        alert('Delivery gig accepted! Heading to pickup counter.');
         fetchRadarGigs();
       } else {
         alert(res.error || 'Could not accept gig.');
@@ -693,7 +723,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
               <span className="material-symbols-outlined text-white text-[32px]">check_circle</span>
             </div>
             <div>
-              <h2 className="font-black text-2xl text-primary dark:text-white">Order Placed! 🎉</h2>
+              <h2 className="font-black text-2xl text-primary dark:text-white">Order Placed</h2>
               <p className="text-sm text-secondary mt-1">Show this QR at the counter for pickup.</p>
             </div>
             {/* QR Code for pickup */}
@@ -707,11 +737,6 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                 <p className="text-[10px] text-secondary font-mono">{confirmedOrderId.slice(0, 8).toUpperCase()}</p>
               </div>
             )}
-            <div className="flex gap-1.5">
-              {['🍽', '🍛', '✨', '🎊', '🍜'].map((e, i) => (
-                <span key={i} className="text-xl" style={{ animationDelay: `${i * 0.08}s`, animation: 'floatUp 1s ease-out both' }}>{e}</span>
-              ))}
-            </div>
             <button
               onClick={() => { setOrderSuccess(false); setConfirmedOrderId(null); setTabView('orders'); }}
               className="text-xs text-secondary underline cursor-pointer"
@@ -813,7 +838,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-[28px] animate-pulse">two_wheeler</span>
             <div>
-              <p className="text-sm font-black">🛵 Live Campus Delivery Request Available!</p>
+              <p className="text-sm font-black">Live Campus Delivery Request Available!</p>
               <p className="text-xs text-white/90 font-medium">
                 Earn ₹{radarGigs.find((g) => g.status === 'open')?.order.deliveryFee || 20} cash tip delivering food to a classmate on campus.
               </p>
@@ -825,27 +850,29 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
         </button>
       )}
 
-      {/* ---- Main Tab Nav ---- */}
-      <div className="flex gap-1.5 p-1.5 bg-slate-200 dark:bg-[#1b1b1f] rounded-full w-fit flex-wrap border border-slate-300 dark:border-slate-800 shadow-xs">
+      {/* ---- Main Tab Nav (Centered Equal Grid on Mobile & Web) ---- */}
+      <div className="w-full max-w-lg mx-auto grid grid-cols-4 gap-1 p-1.5 bg-slate-200 dark:bg-[#1b1b1f] rounded-full border border-slate-300 dark:border-slate-800 shadow-xs text-center">
         {(['menu', 'orders', 'radar', 'history'] as TabView[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setTabView(tab)}
-            className={`px-5 py-2 text-xs font-bold rounded-full transition-all capitalize cursor-pointer flex items-center gap-1.5 ${
+            className={`py-2 px-1 text-xs font-bold rounded-full transition-all capitalize cursor-pointer flex items-center justify-center gap-1 truncate ${
               tabView === tab
                 ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm'
                 : 'text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:bg-slate-300/50'
             }`}
           >
-            {tab === 'menu'
-              ? '🍽 Menu'
-              : tab === 'orders'
-              ? '📦 Orders'
-              : tab === 'radar'
-              ? '🛵 Delivery Radar'
-              : '🕐 History'}
+            <span>
+              {tab === 'menu'
+                ? 'Menu'
+                : tab === 'orders'
+                ? 'Orders'
+                : tab === 'radar'
+                ? 'Radar'
+                : 'History'}
+            </span>
             {tab === 'radar' && radarGigs.filter((g) => g.status === 'open').length > 0 && (
-              <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-white font-black text-[9px]">
+              <span className="px-1.5 py-0.2 rounded-full bg-amber-500 text-white font-black text-[9px] shrink-0">
                 {radarGigs.filter((g) => g.status === 'open').length}
               </span>
             )}
@@ -873,7 +900,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                       : 'bg-white dark:bg-surface-container-high border-neutral-300 dark:border-white/10 text-neutral-900 dark:text-white font-bold hover:bg-neutral-100 dark:hover:bg-surface-container-highest shadow-xs'
                   }`}
                 >
-                  {hotel === 'KC' ? '🍽 New KC Tasty' : hotel === 'Southern Food' ? '🌿 Southern Food' : hotel}
+                  {hotel === 'KC' ? 'New KC Tasty' : hotel === 'Southern Food' ? 'Southern Food' : hotel}
                 </button>
               ))}
             </div>
@@ -912,11 +939,11 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
           </div>
 
           {/* Rating Filter & Sort Controls */}
-          <div className="flex justify-between items-center flex-wrap gap-3 p-3 rounded-20 bg-neutral-100 dark:bg-surface-container-high border border-neutral-300 dark:border-outline/30">
-            <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar">
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2.5 p-3 rounded-20 bg-neutral-100 dark:bg-surface-container-high border border-neutral-300 dark:border-outline/30">
+            <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar shrink-0">
               <button
                 onClick={() => setRatingFilter('all')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer border ${
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer whitespace-nowrap border ${
                   ratingFilter === 'all'
                     ? 'bg-black dark:bg-white text-white dark:text-black border-transparent shadow-sm'
                     : 'bg-white dark:bg-surface-container-high text-neutral-900 dark:text-white border-neutral-300 dark:border-transparent hover:bg-neutral-50'
@@ -926,35 +953,35 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
               </button>
               <button
                 onClick={() => setRatingFilter('top_rated')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1 whitespace-nowrap border ${
                   ratingFilter === 'top_rated'
                     ? 'bg-[#004CBB] text-white border-transparent shadow-sm'
                     : 'bg-[#004CBB]/10 text-[#004CBB] dark:text-[#8078FF] border-[#004CBB]/20 hover:bg-[#004CBB]/20'
                 }`}
               >
-                <span>🔥 Top Rated (4.8+)</span>
+                <span>Top Rated</span>
               </button>
               <button
                 onClick={() => setRatingFilter('4.5_plus')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1 whitespace-nowrap border ${
                   ratingFilter === '4.5_plus'
                     ? 'bg-[#004CBB] text-white border-transparent shadow-sm'
                     : 'bg-white dark:bg-surface-container-high text-neutral-900 dark:text-white border-neutral-300 dark:border-transparent hover:bg-neutral-50'
                 }`}
               >
-                <span>⭐ 4.5+ Stars</span>
+                <span>4.5+ Stars</span>
               </button>
             </div>
 
-            <div className="flex items-center gap-2 text-xs ml-auto">
+            <div className="flex items-center gap-2 text-xs shrink-0 self-end sm:self-auto">
               <span className="text-neutral-900 dark:text-white font-bold hidden sm:inline">Sort:</span>
               <select
                 value={sortBy}
                 onChange={(e: any) => setSortBy(e.target.value)}
-                className="px-3 py-1.5 rounded-full bg-white dark:bg-[#121214] text-neutral-900 dark:text-white font-bold border border-neutral-300 dark:border-outline/60 outline-none cursor-pointer text-xs shadow-xs"
+                className="px-3 py-1.5 rounded-full bg-white dark:bg-[#121214] text-neutral-900 dark:text-white font-bold border border-neutral-300 dark:border-outline/60 outline-none cursor-pointer text-xs shadow-xs w-full sm:w-auto"
               >
                 <option value="recommended">Recommended</option>
-                <option value="rating">Highest Rated ★</option>
+                <option value="rating">Highest Rated</option>
                 <option value="price_low">Price: Low to High</option>
                 <option value="price_high">Price: High to Low</option>
               </select>
@@ -1017,14 +1044,14 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                             <h3 className="font-bold text-sm text-slate-900 dark:text-white leading-tight">{item.name}</h3>
                             {isTopRated && (
                               <span className="text-[9px] bg-[#004CBB] text-white px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider shadow-xs">
-                                🔥 Top Rated
+                                Top Rated
                               </span>
                             )}
                             {!item.isAvailable && (
                               <span className="text-[9px] bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 px-1.5 py-0.5 rounded-full font-bold uppercase">Unavailable</span>
                             )}
                             {inCart && (
-                              <span className="text-[9px] bg-slate-900/10 dark:bg-white/10 text-slate-900 dark:text-white px-1.5 py-0.5 rounded-full font-bold">In Cart ✓</span>
+                              <span className="text-[9px] bg-slate-900/10 dark:bg-white/10 text-slate-900 dark:text-white px-1.5 py-0.5 rounded-full font-bold">In Cart</span>
                             )}
                           </div>
                           <p className="text-xs text-slate-700 dark:text-slate-300 mt-1 line-clamp-2 leading-relaxed font-medium">{item.description}</p>
@@ -1100,7 +1127,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                                 className="absolute inset-0 flex items-center justify-center bg-green-600 rounded-full text-white text-xs font-black z-10"
                                 style={{ animation: 'addedFlash 0.9s ease-out both' }}
                               >
-                                ✓ Added!
+                                Added!
                               </span>
                             )}
                             <span className="material-symbols-outlined text-[14px]">add</span>
@@ -1402,7 +1429,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                               onClick={() => handleGigStatusUpdate(gig.id, 'picked_up')}
                               className="px-4 py-2 rounded-full bg-blue-600 text-white text-xs font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer"
                             >
-                              Mark Picked Up 🍛
+                              Mark Picked Up
                             </button>
                           )}
 
@@ -1411,7 +1438,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                               onClick={() => handleGigStatusUpdate(gig.id, 'delivered')}
                               className="px-4 py-2 rounded-full bg-green-600 text-white text-xs font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer"
                             >
-                              Mark Delivered 🎉
+                              Mark Delivered
                             </button>
                           )}
                         </div>
@@ -1430,8 +1457,8 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
       {/* ===================== CART DRAWER ===================== */}
       {showCartDrawer && (
         <>
-          <div onClick={() => setShowCartDrawer(false)} className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
-          <div className="drawer-slide-in fixed top-0 right-0 bottom-0 w-96 max-w-[92vw] bg-white dark:bg-[#0d0d0f] border-l border-outline z-50 shadow-2xl flex flex-col">
+          <div onClick={() => setShowCartDrawer(false)} className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
+          <div className="drawer-slide-in fixed top-0 right-0 bottom-0 w-96 max-w-[92vw] bg-white dark:bg-[#0d0d0f] border-l border-outline z-[100] shadow-2xl flex flex-col">
             {/* Drawer Header */}
             <div className="flex justify-between items-center p-6 pb-4 border-b border-outline">
               <div className="flex items-center gap-2">
@@ -1549,24 +1576,24 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
               )}
             </div>
 
-            {/* Drawer Footer */}
+            {/* Drawer Footer - Pinned to Bottom Above Mobile Navigation */}
             {cartArray.length > 0 && (
-              <div className="p-6 pt-4 border-t border-outline flex flex-col gap-4">
+              <div className="p-4 pb-24 md:pb-5 border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0c0e] shrink-0 flex flex-col gap-3 shadow-2xl z-20 sticky bottom-0">
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-xs text-secondary">Order Total</p>
-                    <p className="font-bold text-2xl text-primary dark:text-white">
+                    <p className="text-[11px] font-medium text-slate-500 dark:text-[#a4a2a5]">Order Total</p>
+                    <p className="font-extrabold text-xl text-slate-900 dark:text-white">
                       ₹{(cartTotal + (deliveryType === 'peer_delivery' ? (parseFloat(deliveryFee) || 20) : 0)).toFixed(2)}
                     </p>
                   </div>
-                  <p className="text-xs text-secondary text-right">{cartItemCount} item{cartItemCount !== 1 ? 's' : ''}</p>
+                  <p className="text-xs font-semibold text-slate-500 dark:text-[#a4a2a5] text-right">{cartItemCount} item{cartItemCount !== 1 ? 's' : ''}</p>
                 </div>
                 <button
                   onClick={handleCheckout}
                   disabled={loading}
-                  className="w-full py-4 rounded-full bg-gradient-to-r from-primary to-primary/80 dark:from-white dark:to-white/80 text-white dark:text-black font-bold text-base shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-98 transition-all disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm shadow-md hover:opacity-95 active:scale-98 transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
                 >
-                  {loading ? '⏳ Placing Order...' : deliveryType === 'peer_delivery' ? '🛵 Request Peer Delivery' : '🛒 Place Pickup Order'}
+                  {loading ? 'Placing Order...' : deliveryType === 'peer_delivery' ? 'Request Peer Delivery' : 'Place Pickup Order'}
                 </button>
               </div>
             )}
@@ -1873,7 +1900,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                   </button>
                 ))}
                 <span className="text-xs font-bold text-primary dark:text-white ml-2">
-                  {userRatingInput === 5 ? '5 ★ - Excellent!' : userRatingInput === 4 ? '4 ★ - Good' : userRatingInput === 3 ? '3 ★ - Average' : userRatingInput === 2 ? '2 ★ - Needs Improvement' : '1 ★ - Poor'}
+                  {userRatingInput === 5 ? '5/5 - Excellent' : userRatingInput === 4 ? '4/5 - Good' : userRatingInput === 3 ? '3/5 - Average' : userRatingInput === 2 ? '2/5 - Needs Improvement' : '1/5 - Poor'}
                 </span>
               </div>
 
@@ -1897,7 +1924,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                 disabled={submittingRating}
                 className="w-full py-2.5 rounded-full bg-primary dark:bg-white text-white dark:text-black font-bold text-xs hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer shadow-sm"
               >
-                {submittingRating ? 'Submitting Rating...' : 'Submit Rating & Review ★'}
+                {submittingRating ? 'Submitting Rating...' : 'Submit Rating & Review'}
               </button>
             </form>
 

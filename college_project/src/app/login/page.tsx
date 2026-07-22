@@ -414,6 +414,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [infoModal, setInfoModal] = useState({ title: '', message: '', show: false });
   const [showGooglePicker, setShowGooglePicker] = useState(false);
+  const [showNotRegisteredModal, setShowNotRegisteredModal] = useState(false);
 
   // Pending registration data (set after OTP verified for new users)
   const [pendingPhone, setPendingPhone] = useState('');
@@ -519,7 +520,11 @@ export default function LoginPage() {
         show: true,
       });
     } else {
-      setError(res.error || 'Failed to send OTP to Google account email.');
+      if ((res as any).notRegistered) {
+        setShowNotRegisteredModal(true);
+      } else {
+        setError(res.error || 'Failed to send OTP to Google account email.');
+      }
     }
   };
 
@@ -549,21 +554,25 @@ export default function LoginPage() {
     setLoading(false);
 
     if (!res.success) {
-      setError(res.error || 'Failed to send verification code.');
+      if ((res as any).notRegistered) {
+        setShowNotRegisteredModal(true);
+      } else {
+        setError(res.error || 'Failed to send verification code.');
+      }
       return;
     }
     setStep('verify');
 
     if (res.mailError) {
       setInfoModal({
-        title: 'Email Service Notice',
-        message: `Verification request recorded, but email service reported: "${res.mailError}". Please check your inbox or SMTP credentials.`,
+        title: 'Notice',
+        message: `Email service notice: ${res.mailError}`,
         show: true,
       });
     } else {
       setInfoModal({
-        title: 'Code Sent ✓',
-        message: `A 6-digit verification code has been sent to ${res.email || email} via Nobody Support (youseenobody1@gmail.com). Please check your email inbox.`,
+        title: 'Code Sent',
+        message: `Verification code sent to ${res.email || email}.`,
         show: true,
       });
     }
@@ -575,7 +584,7 @@ export default function LoginPage() {
     if (otp.length !== 6) { setError('Enter the 6-digit verification code.'); return; }
     setLoading(true);
 
-    const res = await verifyOTPForOnboarding(phoneNumber, otp);
+    const res = await verifyOTPForOnboarding(phoneNumber, otp, email);
     setLoading(false);
 
     if (!res.success) { setError(res.error || 'Invalid verification code.'); return; }
@@ -629,32 +638,30 @@ export default function LoginPage() {
 
   // ── Render login / register form ──
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-tr from-[#f8f9fc] to-[#e7eaef] dark:from-[#0a0a0c] dark:to-[#121214]">
-      <div className="w-full max-w-md glass-panel p-8 rounded-24 flex flex-col gap-6 relative overflow-hidden animate-fade-up">
-        {/* Decorative blob */}
-        <div className="absolute -top-16 -right-16 w-48 h-48 bg-primary/[0.04] dark:bg-white/[0.04] rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-tr from-[#f8f9fc] via-[#f1f5f9] to-[#e2e8f0] dark:from-[#0a0a0c] dark:via-[#0c0c0e] dark:to-[#121214] relative overflow-hidden">
+      {/* Decorative ambient background */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-slate-900/[0.03] dark:bg-white/[0.03] rounded-full blur-[140px] pointer-events-none" />
 
-        {/* Wordmark */}
-        <div className="text-center flex flex-col items-center gap-3">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-primary dark:text-white">Nobody</h1>
-            <p className="text-secondary dark:text-[#a4a2a5] text-xs mt-1 tracking-wider uppercase">
-              Email Verification Portal
-            </p>
-          </div>
+      <div className="w-full max-w-md glass-panel p-8 rounded-3xl flex flex-col gap-6 relative z-10 border border-slate-200 dark:border-white/10 shadow-2xl animate-fade-up">
+        {/* Wordmark Header */}
+        <div className="text-center flex flex-col items-center gap-1">
+          <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Nobody</h1>
+          <p className="text-secondary dark:text-[#a4a2a5] text-xs font-semibold tracking-wider uppercase">
+            Campus Student Portal
+          </p>
         </div>
 
         {/* Flow Tabs */}
         {step === 'request' && (
-          <div className="flex bg-surface-container dark:bg-surface-container-high rounded-full p-1">
+          <div className="flex bg-slate-200/80 dark:bg-surface-container-high rounded-full p-1 border border-slate-300 dark:border-white/10">
             {(['signin', 'register'] as Flow[]).map((f) => (
               <button
                 key={f}
                 onClick={() => { setFlow(f); setError(''); }}
-                className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all cursor-pointer ${
+                className={`flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-full transition-all cursor-pointer ${
                   flow === f
-                    ? 'bg-black dark:bg-white text-white dark:text-black shadow-sm'
-                    : 'text-secondary dark:text-[#a4a2a5] hover:text-primary dark:hover:text-white'
+                    ? 'bg-black dark:bg-white text-white dark:text-black shadow-md'
+                    : 'text-slate-600 dark:text-[#a4a2a5] hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 {f === 'signin' ? 'Sign In' : 'New Registration'}
@@ -692,7 +699,7 @@ export default function LoginPage() {
 
             <div className="flex flex-col gap-1.5">
               <label htmlFor="email" className="text-[11px] font-bold uppercase tracking-wider text-neutral-800 dark:text-secondary">
-                Email Address (For Verification Code)
+                Email Address
               </label>
               <input
                 id="email"
@@ -731,10 +738,10 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 mt-2 rounded-full bg-primary dark:bg-white text-white dark:text-black font-bold text-sm shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-3.5 mt-2 rounded-full bg-black dark:bg-white hover:opacity-90 text-white dark:text-black font-bold text-sm shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
             >
-              <span className="material-symbols-outlined text-[18px]">mail</span>
-              {loading ? 'Sending Code…' : 'Send Verification Code via Email'}
+              <span className="material-symbols-outlined text-[18px]">login</span>
+              {loading ? 'Processing…' : flow === 'register' ? 'Register Account' : 'Sign In'}
             </button>
           </form>
         )}
@@ -800,26 +807,63 @@ export default function LoginPage() {
       )}
 
       {/* ── Info Modal ── */}
+      {/* ── Minimalist Single-Line Dialog (No Icons/Ticks) ── */}
       {infoModal.show && (
         <>
           <div
             onClick={() => setInfoModal((p) => ({ ...p, show: false }))}
-            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs"
           />
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white dark:bg-[#0d0d0f] border border-outline rounded-24 p-6 z-50 shadow-2xl flex flex-col gap-4 animate-scale-up">
-            <div className="flex items-center gap-2.5 text-primary dark:text-white">
-              <span className="material-symbols-outlined text-[22px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                info
-              </span>
-              <h3 className="font-bold text-sm">{infoModal.title}</h3>
-            </div>
-            <p className="text-xs text-secondary leading-relaxed whitespace-pre-wrap">{infoModal.message}</p>
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xs bg-white dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-2xl p-5 z-50 shadow-2xl flex flex-col gap-3.5 text-center text-slate-900 dark:text-white animate-scale-up">
+            <p className="text-xs font-semibold leading-relaxed">
+              {infoModal.message}
+            </p>
             <button
               onClick={() => setInfoModal((p) => ({ ...p, show: false }))}
-              className="w-full py-2.5 rounded-full bg-primary dark:bg-white text-white dark:text-black font-bold text-xs hover:opacity-90 transition-all cursor-pointer"
+              className="w-full py-2 rounded-full bg-black dark:bg-white text-white dark:text-black font-bold text-xs hover:opacity-90 transition-all cursor-pointer"
             >
-              Got it
+              OK
             </button>
+          </div>
+        </>
+      )}
+
+      {/* ── Account Not Found Modal (Minimal Black & White) ── */}
+      {showNotRegisteredModal && (
+        <>
+          <div
+            onClick={() => setShowNotRegisteredModal(false)}
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+          />
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-3xl p-6 z-50 shadow-2xl flex flex-col gap-5 animate-scale-up text-slate-900 dark:text-white">
+            <div className="flex flex-col items-center text-center gap-2">
+              <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-900 dark:text-white mb-1">
+                <span className="material-symbols-outlined text-[26px]">person_off</span>
+              </div>
+              <h3 className="font-bold text-lg tracking-tight">Account Not Found</h3>
+              <p className="text-xs text-slate-500 dark:text-[#a4a2a5] leading-relaxed">
+                You haven't signed up with this email yet. Please register your student account first to get started.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2.5 pt-1">
+              <button
+                onClick={() => {
+                  setShowNotRegisteredModal(false);
+                  setFlow('register');
+                  setError('');
+                }}
+                className="w-full py-3 rounded-full bg-black dark:bg-white text-white dark:text-black font-bold text-xs hover:opacity-90 transition-all cursor-pointer shadow-md"
+              >
+                Register Account Now →
+              </button>
+              <button
+                onClick={() => setShowNotRegisteredModal(false)}
+                className="w-full py-2.5 rounded-full bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 font-semibold text-xs hover:bg-slate-200 dark:hover:bg-white/10 transition-all cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </>
       )}

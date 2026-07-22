@@ -21,7 +21,7 @@ export function TopAppBar({ onToggleMenu }: { onToggleMenu: () => void }) {
           <span className="material-symbols-outlined text-[24px]">menu</span>
         </button>
         
-        <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+        <Link href="/" prefetch={true} className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
           <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white">Nobody</span>
         </Link>
         
@@ -36,7 +36,7 @@ export function TopAppBar({ onToggleMenu }: { onToggleMenu: () => void }) {
             </span>
           </button>
           
-          <Link href="/profile" className="flex items-center">
+          <Link href="/profile" prefetch={true} className="flex items-center">
             <MorphicImage 
               src={user?.avatarUrl || ''} 
               alt={user?.name || 'User'} 
@@ -69,6 +69,7 @@ export function BottomNavBar() {
           <Link 
             key={item.href} 
             href={item.href}
+            prefetch={true}
             title={item.label}
             className={`relative flex flex-col items-center justify-center rounded-xl px-3 py-1.5 transition-all duration-200 cursor-pointer ${
               isActive 
@@ -100,49 +101,44 @@ export function SidebarDrawer({ isOpen, onClose, userRole }: { isOpen: boolean; 
     { href: '/messages', icon: 'chat', label: 'Messages' },
     { href: '/id', icon: 'badge', label: 'Student ID' },
     { href: '/profile', icon: 'person', label: 'My Profile' },
-    ...(userRole === 'admin' ? [{ href: '/admin', icon: 'admin_panel_settings', label: 'Admin Panel' }] : []),
+    ...(userRole === 'admin' ? [{ href: '/admin', icon: 'admin_panel_settings', label: 'Admin Desk' }] : []),
   ];
+
+  if (!isOpen) return null;
 
   return (
     <>
-      {/* Backdrop */}
-      {isOpen && (
-        <div 
-          onClick={onClose}
-          className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm transition-opacity"
-        />
-      )}
-      
-      {/* Drawer */}
-      <div className={`fixed top-0 left-0 bottom-0 z-[70] w-80 max-w-[85vw] bg-white dark:bg-[#0a0a0c] text-slate-900 dark:text-white border-r border-slate-200 dark:border-[#2a2a2e] transition-transform duration-300 ease-out transform ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
-        <div className="flex flex-col h-full p-6 pb-28 overflow-y-auto hide-scrollbar">
-          <div className="flex justify-between items-center pb-6 border-b border-slate-200 dark:border-[#2a2a2e] mb-6 shrink-0">
-            <div className="flex items-center gap-3">
-              <h2 className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Nobody</h2>
-            </div>
+      <div 
+        onClick={onClose}
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 animate-fade-in"
+      />
+      <div className="fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-white dark:bg-[#121214] text-slate-900 dark:text-white z-50 p-6 flex flex-col justify-between border-r border-slate-200 dark:border-white/10 shadow-2xl animate-slide-right">
+        <div>
+          <div className="flex justify-between items-center pb-6 border-b border-slate-200 dark:border-[#2a2a2e]">
+            <span className="font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">Nobody</span>
             <button 
               onClick={onClose}
-              className="text-slate-500 hover:text-slate-900 dark:text-[#a4a2a5] dark:hover:text-white cursor-pointer"
+              className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer"
             >
-              <span className="material-symbols-outlined">close</span>
+              <span className="material-symbols-outlined text-[24px]">close</span>
             </button>
           </div>
           
-          <div className="flex-1 flex flex-col gap-2">
+          <div className="flex flex-col gap-2 mt-6">
             {menuItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
                 onClick={onClose}
-                className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-[#1f1f23] transition-colors text-slate-800 dark:text-white font-medium"
+                className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all font-medium cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[22px]">{item.icon}</span>
                 <span>{item.label}</span>
               </Link>
             ))}
           </div>
+        </div>
           
           <div className="pt-6 border-t border-slate-200 dark:border-[#2a2a2e] mt-6 shrink-0 pb-6">
             <button
@@ -157,7 +153,6 @@ export function SidebarDrawer({ isOpen, onClose, userRole }: { isOpen: boolean; 
               <span>Sign Out</span>
             </button>
           </div>
-        </div>
       </div>
     </>
   );
@@ -203,7 +198,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       <SidebarDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} userRole={user?.role} />
       
       <main className={`flex-1 pt-[88px] pb-32 px-6 max-w-7xl mx-auto w-full transition-all ${isChatPage ? 'overflow-hidden' : ''}`}>
-        {children}
+        <div key={pathname} className="animate-page-fade-in w-full h-full">
+          {children}
+        </div>
         <div className="h-28 w-full shrink-0" aria-hidden="true" />
       </main>
       

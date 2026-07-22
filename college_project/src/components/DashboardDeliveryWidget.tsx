@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import MorphicImage from '@/components/MorphicImage';
 import PeerDeliveryTracker from '@/components/PeerDeliveryTracker';
@@ -9,6 +9,25 @@ import RatingModal from '@/components/RatingModal';
 import { getDashboardActiveData, acceptDeliveryGig, updateGigStatus, verifyDeliveryHandshakeCode } from '@/app/actions/delivery';
 import { confirmOrderReceipt, cancelOrder } from '@/app/actions/food';
 
+function playNotificationChime() {
+  try {
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.3);
+  } catch (e) {
+    // ignore audio block
+  }
+}
+
 export default function DashboardDeliveryWidget() {
   const [loading, setLoading] = useState(true);
   const [myActiveOrders, setMyActiveOrders] = useState<any[]>([]);
@@ -16,6 +35,14 @@ export default function DashboardDeliveryWidget() {
   const [openGigs, setOpenGigs] = useState<any[]>([]);
   const [dismissedGigIds, setDismissedGigIds] = useState<string[]>([]);
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
+  const prevOpenGigIdsRef = useRef<Set<string>>(new Set());
+
+  // Request browser notification permission on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }, []);
 
   // Handshake PIN Modal / Prompt state for Deliverer
   const [pinModalGig, setPinModalGig] = useState<any | null>(null);
@@ -31,8 +58,34 @@ export default function DashboardDeliveryWidget() {
       const res = await getDashboardActiveData();
       if (res.success) {
         setMyActiveOrders(res.myActiveOrders || []);
-        setMyAssignedGigs(res.myAssignedGigs || []);
-        setOpenGigs(res.openGigs || []);
+
+        let assigned = res.myAssignedGigs || [];
+        if (assigned.length === 0 && typeof window !== 'undefined') {
+          const savedGigId = localStorage.getItem('nobody_assigned_gig_id');
+          if (savedGigId) {
+            const foundInOpen = (res.openGigs || []).find((g: any) => g.id === savedGigId);
+            if (foundInOpen) {
+              assigned = [{ ...foundInOpen, status: 'accepted' }];
+            }
+          }
+        }
+        setMyAssignedGigs(assigned);
+
+        const fetchedOpenGigs = res.openGigs || [];
+        setOpenGigs(fetchedOpenGigs);
+
+        // Detect new open gigs for instant notification
+        const newGigs = fetchedOpenGigs.filter((g: any) => !prevOpenGigIdsRef.current.has(g.id));
+        if (prevOpenGigIdsRef.current.size > 0 && newGigs.length > 0) {
+          playNotificationChime();
+          if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+            new Notification('New Campus Delivery Request', {
+              body: `Earn ₹${newGigs[0].order?.deliveryFee || 20} delivering food on campus. Tap to accept.`,
+              icon: '/favicon.ico',
+            });
+          }
+        }
+        prevOpenGigIdsRef.current = new Set(fetchedOpenGigs.map((g: any) => g.id));
       }
     } catch (e) {
       console.warn('[DASHBOARD WIDGET] Fetch error:', e);
@@ -43,7 +96,7 @@ export default function DashboardDeliveryWidget() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 4000);
+    const interval = setInterval(fetchData, 3000);
     return () => clearInterval(interval);
   }, [fetchData]);
 
@@ -53,6 +106,9 @@ export default function DashboardDeliveryWidget() {
     try {
       const res = await acceptDeliveryGig(gigId);
       if (res.success) {
+        try {
+          localStorage.setItem('nobody_assigned_gig_id', gigId);
+        } catch (e) {}
         await fetchData();
       } else {
         alert(res.error || 'Failed to accept delivery request.');
@@ -96,7 +152,10 @@ export default function DashboardDeliveryWidget() {
     try {
       const res = await verifyDeliveryHandshakeCode(pinModalGig.id, inputPin);
       if (res.success) {
-        alert('🎉 Handshake PIN Verified! Delivery completed successfully.');
+        alert('Handshake PIN Verified! Delivery completed successfully.');
+        try {
+          localStorage.removeItem('nobody_assigned_gig_id');
+        } catch (e) {}
         const currentGig = pinModalGig;
         setPinModalGig(null);
         setInputPin('');
@@ -268,20 +327,20 @@ export default function DashboardDeliveryWidget() {
 
             return (
               <div key={gig.id} className="p-6 rounded-24 bg-gradient-to-br from-slate-900 via-[#121214] to-black text-white border border-[#004CBB]/40 shadow-xl flex flex-col gap-4">
-                <div className="flex justify-between items-start gap-4">
-                  <div className="flex items-center gap-3">
+                <div className="flex justify-between items-start gap-3 flex-wrap sm:flex-nowrap">
+                  <div className="flex items-start gap-3 min-w-0 flex-1">
                     <div className="w-11 h-11 rounded-full overflow-hidden border border-[#004CBB]/50 shrink-0">
                       <MorphicImage src={customer?.avatarUrl || ''} alt={customer?.name || 'Customer'} fallbackIcon="account_circle" className="w-full h-full object-cover" />
                     </div>
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#004CBB]/20 text-[#8078FF] border border-[#004CBB]/40">
-                          ● Task ({gig.status === 'accepted' ? 'Pickup at Canteen' : 'En Route to Buyer'})
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#004CBB]/25 text-[#8078FF] border border-[#004CBB]/40 whitespace-nowrap">
+                          Task: {gig.status === 'accepted' ? 'Pickup at Canteen' : 'En Route to Buyer'}
                         </span>
-                        <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#004CBB]/20 text-[#8078FF]">✓ Verified Buyer</span>
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">Verified Buyer</span>
                       </div>
-                      <h4 className="font-bold text-base text-white mt-1">Deliver to {customer?.name || 'Student'}</h4>
-                      <p className="text-xs text-white/70">Drop-off: {gig.order?.deliveryAddress || 'Campus Hostel'}</p>
+                      <h4 className="font-bold text-base text-white truncate">Deliver to {customer?.name || 'Student'}</h4>
+                      <p className="text-xs text-white/70 truncate">Drop-off: {gig.order?.deliveryAddress || 'Campus Hostel'}</p>
                     </div>
                   </div>
 
@@ -345,7 +404,7 @@ export default function DashboardDeliveryWidget() {
                       className="px-5 py-2.5 rounded-full bg-[#004CBB] hover:bg-[#003da1] text-white font-black text-xs shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
                     >
                       <span className="material-symbols-outlined text-[18px]">takeout_dining</span>
-                      <span>{actionLoadingId === gig.id ? 'Updating...' : '🍛 Mark Food Picked Up'}</span>
+                      <span>{actionLoadingId === gig.id ? 'Updating...' : 'Mark Food Picked Up'}</span>
                     </button>
                   )}
 
@@ -376,7 +435,7 @@ export default function DashboardDeliveryWidget() {
           {(() => {
             const currentGig = activeOpenGigs[0];
             const parsedItems = JSON.parse(currentGig.order?.items || '[]') as Array<{ name: string; quantity: number }>;
-            const itemTotalCount = parsedItems.reduce((acc, i) => acc + (i.quantity || 1), 0);
+            const itemTotalCount = parsedItems.reduce((acc: number, i: { quantity?: number }) => acc + (i.quantity || 1), 0);
 
             return (
               <>
@@ -482,7 +541,7 @@ export default function DashboardDeliveryWidget() {
                   disabled={actionLoadingId === pinModalGig.id || inputPin.length !== 4}
                   className="flex-1 py-3 rounded-full bg-[#004CBB] hover:bg-[#003da1] text-white font-bold text-xs shadow-md hover:scale-105 transition-all disabled:opacity-50 cursor-pointer"
                 >
-                  {actionLoadingId === pinModalGig.id ? 'Verifying...' : 'Verify PIN & Finish 🎉'}
+                  {actionLoadingId === pinModalGig.id ? 'Verifying...' : 'Verify PIN & Finish'}
                 </button>
               </div>
             </form>

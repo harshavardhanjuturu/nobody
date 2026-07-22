@@ -30,9 +30,37 @@ export async function getSessionUser() {
       return null;
     }
 
-    const user = await db.user.findUnique({
+    let user = await db.user.findUnique({
       where: { id: payload.userId }
     });
+
+    // If database record is missing on a fresh serverless instance, reconstruct and sync from verified JWT payload
+    if (!user && payload.email) {
+      try {
+        user = await db.user.upsert({
+          where: { id: payload.userId },
+          update: {},
+          create: {
+            id: payload.userId,
+            email: payload.email,
+            name: payload.name || `Student ${payload.email.split('@')[0]}`,
+            phoneNumber: payload.phoneNumber || '+910000000000',
+            role: payload.role || 'student',
+            avatarUrl: payload.avatarUrl || null,
+          },
+        });
+      } catch (err) {
+        console.warn('User upsert fallback warning:', err);
+        return {
+          id: payload.userId,
+          email: payload.email,
+          name: payload.name || 'Student',
+          phoneNumber: payload.phoneNumber || '+910000000000',
+          role: payload.role || 'student',
+          avatarUrl: payload.avatarUrl || null,
+        } as any;
+      }
+    }
 
     return user;
   } catch (error) {
@@ -42,7 +70,25 @@ export async function getSessionUser() {
 }
 
 export async function setSessionCookie(userId: string) {
-  const token = signToken({ userId });
+  let userPayload: any = { userId };
+
+  try {
+    const u = await db.user.findUnique({ where: { id: userId } });
+    if (u) {
+      userPayload = {
+        userId: u.id,
+        email: u.email,
+        name: u.name,
+        role: u.role,
+        phoneNumber: u.phoneNumber,
+        avatarUrl: u.avatarUrl,
+      };
+    }
+  } catch (e) {
+    console.warn('Error embedding user payload:', e);
+  }
+
+  const token = signToken(userPayload);
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, token, {
     httpOnly: true,

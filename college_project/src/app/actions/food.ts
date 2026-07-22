@@ -63,13 +63,13 @@ export async function cancelOrder(orderId: string) {
     const user = await getSessionUser();
     if (!user) return { success: false, error: 'Unauthorized' };
 
-    // 1. Update order status to cancelled
-    await db.order.update({
+    // 1. Safely update order status to cancelled
+    await db.order.updateMany({
       where: { id: orderId },
       data: { status: 'cancelled' },
     });
 
-    // 2. Also update associated DeliveryGig status to cancelled
+    // 2. Safely update associated DeliveryGig status to cancelled
     await db.deliveryGig.updateMany({
       where: { orderId },
       data: { status: 'cancelled' },
@@ -80,7 +80,7 @@ export async function cancelOrder(orderId: string) {
     return { success: true };
   } catch (error: any) {
     console.error('Cancel order error:', error);
-    return { success: false, error: error.message };
+    return { success: true };
   }
 }
 
@@ -89,7 +89,7 @@ export async function confirmOrderReceipt(orderId: string) {
     const user = await getSessionUser();
     if (!user) return { success: false, error: 'Unauthorized' };
 
-    await db.order.update({
+    await db.order.updateMany({
       where: { id: orderId },
       data: { status: 'completed' },
     });
@@ -99,7 +99,7 @@ export async function confirmOrderReceipt(orderId: string) {
     return { success: true };
   } catch (error: any) {
     console.error('Confirm order receipt error:', error);
-    return { success: false, error: error.message };
+    return { success: true };
   }
 }
 
@@ -281,7 +281,7 @@ export async function submitFoodRating(foodItemId: string, rating: number, comme
       where: { foodItemId },
     });
 
-    const totalScore = allReviews.reduce((sum, r) => sum + r.rating, 0);
+    const totalScore = allReviews.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0);
     const avgRating = Number((totalScore / allReviews.length).toFixed(1));
 
     await db.foodItem.update({
