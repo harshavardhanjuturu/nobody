@@ -132,7 +132,7 @@ export async function getOpenDeliveryGigs() {
     const user = await getSessionUser();
     if (!user) return { success: false, error: 'Unauthorized' };
 
-    const gigs = await db.deliveryGig.findMany({
+    const dbGigs = await db.deliveryGig.findMany({
       where: {
         OR: [
           {
@@ -163,7 +163,54 @@ export async function getOpenDeliveryGigs() {
       orderBy: { createdAt: 'desc' },
     });
 
-    return { success: true, gigs, currentUserId: user.id };
+    // Merge real-time Cloud Sync store gigs to bridge serverless lambdas
+    const cloudGigs = await syncFetchAllGigs();
+    const dbGigIds = new Set(dbGigs.map((g) => g.id));
+    const mergedGigs: any[] = [...dbGigs];
+
+    for (const cg of cloudGigs) {
+      if (!dbGigIds.has(cg.id)) {
+        if (cg.status === 'open' || (cg.status !== 'delivered' && cg.delivererId === user.id)) {
+          mergedGigs.push({
+            id: cg.id,
+            orderId: cg.orderId,
+            status: cg.status,
+            deliveryCode: cg.deliveryCode,
+            delivererId: cg.delivererId || null,
+            currentLat: cg.currentLat || null,
+            currentLng: cg.currentLng || null,
+            createdAt: new Date(cg.createdAt),
+            updatedAt: new Date(cg.updatedAt),
+            order: {
+              id: cg.orderId,
+              status: 'pending',
+              total: cg.total,
+              deliveryAddress: cg.deliveryAddress,
+              deliveryFee: cg.deliveryFee,
+              items: cg.items,
+              user: {
+                id: cg.buyerId,
+                name: cg.buyerName,
+                phoneNumber: cg.buyerPhone || '',
+                email: '',
+                avatarUrl: cg.buyerAvatar || '',
+              },
+            },
+            deliverer: cg.delivererId
+              ? {
+                  id: cg.delivererId,
+                  name: cg.delivererName || 'Student Deliverer',
+                  phoneNumber: cg.delivererPhone || '',
+                  email: '',
+                  avatarUrl: cg.delivererAvatar || '',
+                }
+              : null,
+          });
+        }
+      }
+    }
+
+    return { success: true, gigs: mergedGigs, currentUserId: user.id };
   } catch (error: any) {
     console.error('[DELIVERY] getOpenDeliveryGigs error:', error);
     return { success: false, error: error.message };
@@ -389,12 +436,79 @@ export async function getDashboardActiveData() {
       orderBy: { createdAt: 'desc' },
     });
 
+    // Merge real-time Cloud Sync Store data to bridge isolated serverless lambdas
+    const cloudGigs = await syncFetchAllGigs();
+
+    const mergedOpenGigs: any[] = [...openGigs];
+    const openGigIds = new Set(openGigs.map((g) => g.id));
+
+    const mergedAssignedGigs: any[] = [...myAssignedGigs];
+    const assignedGigIds = new Set(myAssignedGigs.map((g) => g.id));
+
+    for (const cg of cloudGigs) {
+      if (cg.status === 'open' && !openGigIds.has(cg.id)) {
+        mergedOpenGigs.push({
+          id: cg.id,
+          orderId: cg.orderId,
+          status: cg.status,
+          deliveryCode: cg.deliveryCode,
+          delivererId: null,
+          currentLat: cg.currentLat || null,
+          currentLng: cg.currentLng || null,
+          createdAt: new Date(cg.createdAt),
+          updatedAt: new Date(cg.updatedAt),
+          order: {
+            id: cg.orderId,
+            status: 'pending',
+            total: cg.total,
+            deliveryAddress: cg.deliveryAddress,
+            deliveryFee: cg.deliveryFee,
+            items: cg.items,
+            user: {
+              id: cg.buyerId,
+              name: cg.buyerName,
+              phoneNumber: cg.buyerPhone || '',
+              avatarUrl: cg.buyerAvatar || '',
+            },
+          },
+        });
+      }
+
+      if (cg.delivererId === user.id && cg.status !== 'delivered' && !assignedGigIds.has(cg.id)) {
+        mergedAssignedGigs.push({
+          id: cg.id,
+          orderId: cg.orderId,
+          status: cg.status,
+          deliveryCode: cg.deliveryCode,
+          delivererId: cg.delivererId,
+          currentLat: cg.currentLat || null,
+          currentLng: cg.currentLng || null,
+          createdAt: new Date(cg.createdAt),
+          updatedAt: new Date(cg.updatedAt),
+          order: {
+            id: cg.orderId,
+            status: 'pending',
+            total: cg.total,
+            deliveryAddress: cg.deliveryAddress,
+            deliveryFee: cg.deliveryFee,
+            items: cg.items,
+            user: {
+              id: cg.buyerId,
+              name: cg.buyerName,
+              phoneNumber: cg.buyerPhone || '',
+              avatarUrl: cg.buyerAvatar || '',
+            },
+          },
+        });
+      }
+    }
+
     return {
       success: true,
       currentUserId: user.id,
       myActiveOrders,
-      myAssignedGigs,
-      openGigs,
+      myAssignedGigs: mergedAssignedGigs,
+      openGigs: mergedOpenGigs,
     };
   } catch (error: any) {
     console.error('[DASHBOARD] getDashboardActiveData error:', error);
@@ -413,37 +527,56 @@ export async function verifyDeliveryHandshakeCode(gigId: string, inputCode: stri
       include: { order: { include: { user: true } } },
     });
 
-    if (!gig) return { success: false, error: 'Delivery gig not found.' };
+    let deliveryCode = gig?.deliveryCode;
+    let orderId = gig?.orderId;
+    let buyerUserId = gig?.order?.userId;
+    let buyerEmail = gig?.order?.user?.email;
 
-    if (gig.delivererId !== user.id) {
+    if (!gig) {
+      const cloudGigs = await syncFetchAllGigs();
+      const cg = cloudGigs.find((g) => g.id === gigId);
+      if (cg) {
+        deliveryCode = cg.deliveryCode;
+        orderId = cg.orderId;
+        buyerUserId = cg.buyerId;
+      } else {
+        return { success: false, error: 'Delivery gig not found.' };
+      }
+    } else if (gig.delivererId && gig.delivererId !== user.id) {
       return { success: false, error: 'Only the assigned delivery partner can enter the Handshake PIN.' };
     }
 
-    if (!gig.deliveryCode || gig.deliveryCode.trim() !== inputCode.trim()) {
+    if (!deliveryCode || deliveryCode.trim() !== inputCode.trim()) {
       return {
         success: false,
         error: 'Invalid 4-Digit Handshake PIN. Please ask the customer for their 4-digit verification code.',
       };
     }
 
-    // PIN matched! Update gig status to delivered and order status to completed
-    await db.deliveryGig.update({
+    // PIN matched! Update gig status to delivered in database and cloud store
+    await db.deliveryGig.updateMany({
       where: { id: gigId },
       data: { status: 'delivered' },
     });
 
-    await db.order.updateMany({
-      where: { id: gig.orderId },
-      data: { status: 'completed' },
-    });
+    await syncUpdateGig(gigId, { status: 'delivered' });
+
+    if (orderId) {
+      await db.order.updateMany({
+        where: { id: orderId },
+        data: { status: 'completed' },
+      });
+    }
 
     // Notify buyer
     const buyerText = `Handshake PIN verified! Your order was successfully delivered by ${user.name}.`;
-    await sendPushToUser(gig.order.userId, 'Delivery Confirmed', buyerText, '/food');
+    if (buyerUserId) {
+      await sendPushToUser(buyerUserId, 'Delivery Confirmed', buyerText, '/food');
+    }
 
-    if (gig.order.user?.email) {
+    if (buyerEmail) {
       await sendNotificationEmail(
-        gig.order.user.email,
+        buyerEmail,
         'Delivery Confirmed - Nobody',
         'Delivery Confirmed',
         buyerText,
