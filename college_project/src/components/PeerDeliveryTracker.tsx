@@ -59,7 +59,7 @@ export default function PeerDeliveryTracker({
 
   useEffect(() => {
     fetchStatus();
-    const interval = setInterval(fetchStatus, 3000);
+    const interval = setInterval(fetchStatus, 1500);
     return () => clearInterval(interval);
   }, [fetchStatus]);
 

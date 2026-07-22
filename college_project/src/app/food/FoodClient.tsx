@@ -455,7 +455,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
 
   useEffect(() => {
     fetchRadarGigs();
-    const interval = setInterval(fetchRadarGigs, 2000);
+    const interval = setInterval(fetchRadarGigs, 1500);
     return () => clearInterval(interval);
   }, [fetchRadarGigs]);
 

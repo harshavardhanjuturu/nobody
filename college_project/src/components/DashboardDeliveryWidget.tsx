@@ -76,7 +76,7 @@ export default function DashboardDeliveryWidget() {
 
         // Detect new open gigs for instant notification
         const newGigs = fetchedOpenGigs.filter((g: any) => !prevOpenGigIdsRef.current.has(g.id));
-        if (prevOpenGigIdsRef.current.size > 0 && newGigs.length > 0) {
+        if (newGigs.length > 0) {
           playNotificationChime();
           if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
             new Notification('New Campus Delivery Request', {
@@ -96,7 +96,7 @@ export default function DashboardDeliveryWidget() {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 3000);
+    const interval = setInterval(fetchData, 1500);
     return () => clearInterval(interval);
   }, [fetchData]);
 
