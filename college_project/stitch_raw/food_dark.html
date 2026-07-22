@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub Food</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&amp;family=Manrope:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-dim": "#141313",
+                "on-tertiary-fixed-variant": "#414753",
+                "outline-variant": "#46464a",
+                "on-primary-fixed-variant": "#474647",
+                "primary": "#c8c6c7",
+                "on-primary-fixed": "#1c1b1c",
+                "on-primary-container": "#7a797a",
+                "surface-container": "#201f1f",
+                "surface-variant": "#353434",
+                "on-secondary": "#313030",
+                "on-tertiary-fixed": "#161c27",
+                "on-tertiary-container": "#747987",
+                "inverse-primary": "#5f5e5f",
+                "on-error": "#690005",
+                "secondary-container": "#474746",
+                "inverse-surface": "#e5e2e1",
+                "tertiary-container": "#050a15",
+                "inverse-on-surface": "#313030",
+                "secondary": "#c8c6c5",
+                "surface-tint": "#c8c6c7",
+                "secondary-fixed-dim": "#c8c6c5",
+                "tertiary-fixed-dim": "#c1c6d6",
+                "on-secondary-fixed-variant": "#474746",
+                "secondary-fixed": "#e5e2e1",
+                "on-surface-variant": "#c7c6ca",
+                "error-container": "#93000a",
+                "error": "#ffb4ab",
+                "surface-container-low": "#1c1b1b",
+                "on-secondary-fixed": "#1c1b1b",
+                "outline": "#919094",
+                "on-surface": "#e5e2e1",
+                "primary-fixed": "#e5e2e3",
+                "surface-bright": "#3a3939",
+                "on-tertiary": "#2b313c",
+                "on-secondary-container": "#b7b5b4",
+                "on-primary": "#313031",
+                "primary-fixed-dim": "#c8c6c7",
+                "on-background": "#e5e2e1",
+                "surface-container-high": "#2b2a2a",
+                "surface": "#141313",
+                "tertiary": "#c1c6d6",
+                "background": "#141313",
+                "surface-container-highest": "#353434",
+                "surface-container-lowest": "#0e0e0e",
+                "tertiary-fixed": "#dde2f2",
+                "primary-container": "#0a0a0b",
+                "on-error-container": "#ffdad6"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "unit": "8px",
+                "margin-desktop": "40px",
+                "gutter": "24px",
+                "margin-mobile": "16px",
+                "container-max": "1280px"
+        },
+        "fontFamily": {
+                "display-lg": [
+                        "Manrope"
+                ],
+                "body-md": [
+                        "Manrope"
+                ],
+                "headline-lg-mobile": [
+                        "Manrope"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ],
+                "headline-lg": [
+                        "Manrope"
+                ]
+        },
+        "fontSize": {
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "1.1",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "1.0",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-panel {
+            background: rgba(20, 19, 19, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .ambient-shadow {
+            box-shadow: 0 40px 40px -15px rgba(0,0,0,0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/70 backdrop-blur-[20px] border-b border-surface-variant shadow-[0_40px_40px_-15px_rgba(0,0,0,0.5)]">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-[1280px] mx-auto">
+<button class="text-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-primary">CampusHub</h1>
+<button class="text-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out rounded-full overflow-hidden w-8 h-8">
+<img class="w-full h-full object-cover" data-alt="A clean, modern headshot of a college student, well-lit, professional yet approachable, serving as a high-end user profile avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0Qe8W7EcB2ciUqw5DtByZX5OktJyouAd1SHopErbm6QQm9aLi_U9pBWhzxgGdKqRZ6vlmJhUg1DcJuXj95PbKVRnEaNDVYhVnw5DcOJn_cRuB9jEZnddhcApl0i1n8tnTPo5obuXv990XZ85uvFu_QtO96tojIRbNXVZAUZVEUreh5nIJnxeB_ZltNEe1ANz1FzHeAg6qbEbcTeZVJD9pFl9Owy3LXA8fJBZsJ2OgDWPMs0vq8ioH7_8dHUsBU6qFdpgiddwmGdk"/>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[96px] pb-[120px] px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Header & Search -->
+<section class="mt-2 mb-8">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-4">
+                What are you craving?
+            </h2>
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant transition-colors group-focus-within:text-primary">search</span>
+<input class="w-full bg-surface-container-low hover:bg-surface-container focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary rounded-full py-4 pl-12 pr-4 font-body-md text-on-surface placeholder:text-on-surface-variant transition-all duration-300 border border-surface-variant" placeholder="Search dishes, venues, or cuisines..." type="text"/>
+</div>
+</section>
+<!-- Categories (Peek Cards Layout) -->
+<section class="mb-8 -mx-margin-mobile md:-mx-0 px-margin-mobile md:px-0">
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+<button class="whitespace-nowrap px-6 py-3 bg-primary text-on-primary rounded-full font-body-md font-semibold hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-[0_10px_20px_rgba(0,0,0,0.3)] flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">restaurant</span>
+                    Cafeteria
+                </button>
+<button class="whitespace-nowrap px-6 py-3 glass-panel text-on-surface rounded-full font-body-md font-semibold hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">directions_bike</span>
+                    Delivery
+                </button>
+<button class="whitespace-nowrap px-6 py-3 glass-panel text-on-surface rounded-full font-body-md font-semibold hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">local_cafe</span>
+                    Coffee Shop
+                </button>
+<button class="whitespace-nowrap px-6 py-3 glass-panel text-on-surface rounded-full font-body-md font-semibold hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">storefront</span>
+                    Mini Mart
+                </button>
+</div>
+</section>
+<!-- Live Queue Tracker -->
+<section class="mb-12">
+<div class="glass-panel rounded-xl p-6 ambient-shadow border border-surface-variant relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
+<!-- Decorative background blob -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="font-label-sm text-on-surface-variant uppercase tracking-wider">Live Queue Tracker</span>
+</div>
+<h3 class="font-headline-lg-mobile md:text-[28px] font-semibold text-on-surface">Main Dining Hall</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant mt-1">Slightly busy. Best time to go is in 45 mins.</p>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-lowest px-5 py-3 rounded-lg border border-surface-variant/50 shadow-sm">
+<div class="text-center">
+<span class="block font-headline-lg-mobile text-primary">12</span>
+<span class="font-label-sm text-on-surface-variant">MIN WAIT</span>
+</div>
+<div class="w-px h-8 bg-surface-variant"></div>
+<div class="text-center">
+<span class="block font-headline-lg-mobile text-primary">45%</span>
+<span class="font-label-sm text-on-surface-variant">CAPACITY</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Today's Menu (Bento Grid) -->
+<section>
+<div class="flex justify-between items-end mb-6">
+<h2 class="font-headline-lg-mobile text-on-surface">Today's Highlights</h2>
+<button class="font-body-md font-semibold text-primary flex items-center gap-1 hover:opacity-80 transition-opacity">
+                    See all <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Large Item 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-2 shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-surface-variant/50 flex flex-col hover:scale-[1.02] transition-transform duration-300 group cursor-pointer">
+<div class="relative w-full h-56 rounded-lg overflow-hidden">
+<img class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="A high-end, mouth-watering close-up of an artisanal truffle beef burger on a toasted brioche bun, perfectly melted cheese, resting on a clean minimalist white plate. High-key lighting, bright modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCvmQjVwEu0Oa_OQgSd6L4KFQ2wTf-8yyZMFlJ51nuMTziE8fx3yb6txkvW0iO9nSXYBsJBWaLCZsC8Gg02F0aCkdT-5nklIgL7HQg0F-qVmGvcK-9dlBLgxWIKdKW6gEx9PYfvk9AVbamlgP7lHX0Ya8yt7zqRBgDvKiFe4QTcoRTw7ihpjpmGvHfCAk-MvL7VLCA3BdgK9sVXM6ghgX_goFeri8iaaBTp8uuhOPt3_qsB-yFcyMtnePxgWF9Q9q0ZZxh7chTSKs"/>
+<div class="absolute top-3 right-3 glass-panel px-3 py-1.5 rounded-full text-label-sm font-label-sm text-on-surface flex items-center gap-1 shadow-sm border border-surface-variant">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 15 min
+                        </div>
+</div>
+<div class="p-4 flex-grow flex flex-col justify-between">
+<div>
+<h3 class="font-body-md font-semibold text-[18px] text-on-surface">Artisanal Truffle Burger</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant mt-1 line-clamp-2">Premium angus beef patty, black truffle aioli, aged cheddar, arugula on a toasted brioche bun.</p>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<span class="font-headline-lg-mobile text-primary">$14.50</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Large Item 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-2 shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-surface-variant/50 flex flex-col hover:scale-[1.02] transition-transform duration-300 group cursor-pointer">
+<div class="relative w-full h-56 rounded-lg overflow-hidden">
+<img class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="A beautifully plated organic superfood grain bowl featuring vibrant avocado, quinoa, roasted sweet potatoes, and a perfectly soft-boiled egg. Shot from a top-down perspective on a light minimalist background. Fresh and healthy aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzv_fKhonBtwAbE8xRb9fLuW7NU0GLZnFSM44beiagt_xeUf8H35eEMHuLWwaiWepsracg6OPUI1wEVnbfFwyS0mJ-bZ27ssl6znM1JdrinQp2RFqxQzY5sRZj9TkOVEC9G4oQCKN9_bPflRf5alPYVrUZTaTLONLjZJeH8djvxRaEZvUP5UKh0CIuIOHZbBpd2Pvt7q1BLw7UZr__4QlmRhgVZJErd-bgyNHJEDV_EXPR2hUywB88Az4jEXo1_HqGb2P4SBA4Psg"/>
+<div class="absolute top-3 right-3 glass-panel px-3 py-1.5 rounded-full text-label-sm font-label-sm text-on-surface flex items-center gap-1 shadow-sm border border-surface-variant">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 5 min
+                        </div>
+<div class="absolute top-3 left-3 bg-surface-container text-primary px-2 py-1 rounded-full text-label-sm font-label-sm shadow-sm border border-surface-variant">
+                            Vegan Option
+                        </div>
+</div>
+<div class="p-4 flex-grow flex flex-col justify-between">
+<div>
+<h3 class="font-body-md font-semibold text-[18px] text-on-surface">Harvest Grain Bowl</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant mt-1 line-clamp-2">Quinoa, roasted sweet potato, kale, sliced avocado, toasted pepitas with a lemon tahini dressing.</p>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<span class="font-headline-lg-mobile text-primary">$12.00</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Large Item 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-2 shadow-[0_10px_30px_rgba(0,0,0,0.3)] border border-surface-variant/50 flex flex-col hover:scale-[1.02] transition-transform duration-300 group cursor-pointer md:col-span-2 lg:col-span-1">
+<div class="relative w-full h-56 rounded-lg overflow-hidden">
+<img class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="An elegant, frothy iced matcha latte in a tall glass with condensation, placed on a clean marble counter. Soft, diffuse morning light creating a serene, premium café vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaQi5FQMbmye61sGktySutuEM-lZlBwFc2yGQYto2QKBlLXvG6RaPGeu7qevKjZ4rEDbeg3YTQXDf7CbA3FDbV5YcyOFUDNlK8lAQcvyB1_UQ-V4qAB0gDWqb6TZJ59RFOGhdWunuY_ynthiKljD0Hx_qymvrZOx2HPZJ_3HC8jESwDMC3hShVQI3Z5mIhGgSnBeImcR1IyZhRDdPqLS37wOdB0htNSWFBB9nbAc1iJ2wb1TEkZbsFFtoEhyXvR7C9bOhGDjZdKCs"/>
+<div class="absolute top-3 right-3 glass-panel px-3 py-1.5 rounded-full text-label-sm font-label-sm text-on-surface flex items-center gap-1 shadow-sm border border-surface-variant">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 2 min
+                        </div>
+</div>
+<div class="p-4 flex-grow flex flex-col justify-between">
+<div>
+<h3 class="font-body-md font-semibold text-[18px] text-on-surface">Iced Ceremonial Matcha</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant mt-1 line-clamp-2">Premium ceremonial grade matcha whisked with oat milk and lightly sweetened with agave.</p>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<span class="font-headline-lg-mobile text-primary">$6.50</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Checkout Button (FAB) -->
+<button class="fixed bottom-[100px] right-margin-mobile md:right-margin-desktop z-40 bg-primary text-on-primary pl-5 pr-6 py-4 rounded-full shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex items-center gap-3 hover:scale-105 active:scale-95 transition-all duration-300 group">
+<div class="relative">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="absolute -top-2 -right-2 bg-error text-on-error w-5 h-5 rounded-full flex items-center justify-center font-label-sm text-[10px] shadow-sm">2</span>
+</div>
+<div class="flex flex-col items-start ml-1">
+<span class="font-body-md font-semibold leading-tight">Checkout</span>
+<span class="font-label-sm opacity-80 leading-tight">$26.50</span>
+</div>
+<span class="material-symbols-outlined ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-[20px]">arrow_forward</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-background/70 backdrop-blur-[30px] border border-surface-variant shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex justify-around items-center p-2 z-50 md:hidden">
+<button class="relative flex flex-col items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)">
+<span class="material-symbols-outlined">home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)">
+<span class="material-symbols-outlined">person</span>
+</button>
+</nav>
+</body></html>

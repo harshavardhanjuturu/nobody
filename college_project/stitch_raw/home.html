@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#cfc4c5",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#001c3b",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-secondary-container": "#636264",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f3f3f3",
+                        "secondary-container": "#e2dfe1",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "on-surface-variant": "#4c4546",
+                        "surface-container-high": "#e8e8e8",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eeeeee",
+                        "surface-tint": "#5e5e5e",
+                        "primary-container": "#1b1b1b",
+                        "tertiary-fixed-dim": "#b0c8f0",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#c6c6c6",
+                        "on-tertiary-fixed-variant": "#30486a",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary-fixed": "#d5e3ff",
+                        "outline": "#7e7576",
+                        "on-secondary-fixed": "#1b1b1d",
+                        "secondary-fixed": "#e4e2e4",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "on-tertiary-fixed": "#001c3b",
+                        "on-primary-container": "#848484",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary-fixed-variant": "#474747",
+                        "secondary": "#5f5e60",
+                        "surface-dim": "#dadada",
+                        "on-secondary-fixed-variant": "#474649",
+                        "surface-bright": "#f9f9f9",
+                        "primary": "#000000",
+                        "on-tertiary-container": "#6e85aa",
+                        "on-primary-fixed": "#1b1b1b",
+                        "secondary-fixed-dim": "#c8c6c8",
+                        "on-background": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-margin": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "subtitle-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "subtitle-md": ["18px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAFAFA;
+            /* Using hex directly as instructed for pure base */
+            /* Actually, instruction says use tailwind named colors. */
+        }
+        
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 40px 40px -15px rgba(0,0,0,0.1);
+        }
+
+        .base-card {
+            background-color: #ffffff;
+            box-shadow: inset 0 0 0 1px #E5E5E7;
+        }
+
+        /* Hide scrollbar for horizontal scroll areas */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg antialiased pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 dark:bg-black/70 backdrop-blur-[20px] border-b border-white/20 dark:border-white/10 shadow-[0_40px_40px_-15px_rgba(0,0,0,0.1)]">
+<div class="flex justify-between items-center px-container-margin py-stack-md w-full max-w-7xl mx-auto">
+<button class="text-primary dark:text-on-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md tracking-tight text-primary dark:text-on-primary">CampusHub</h1>
+<button class="text-primary dark:text-on-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out">
+<span class="material-symbols-outlined text-[24px]">account_circle</span>
+</button>
+</div>
+</header>
+<main class="pt-[104px] px-container-margin max-w-7xl mx-auto flex flex-col gap-stack-lg">
+<!-- Greeting & Weather Bento -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="col-span-1 md:col-span-2 glass-panel rounded-[24px] p-container-margin flex flex-col justify-between h-48 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+<div class="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent z-0"></div>
+<div class="relative z-10">
+<p class="font-subtitle-md text-subtitle-md text-secondary">Good morning,</p>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary tracking-tight mt-2">Alex Parker</h2>
+</div>
+<div class="relative z-10 flex items-center gap-2 mt-auto">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tuesday, Oct 24 • Week 8</p>
+</div>
+</div>
+<div class="col-span-1 base-card rounded-[24px] p-container-margin flex flex-col items-center justify-center h-48 hover:scale-[1.02] transition-transform duration-300">
+<span class="material-symbols-outlined text-[48px] text-primary mb-2" style="font-variation-settings: 'FILL' 1;">cloud</span>
+<p class="font-headline-md text-headline-md text-primary">68°</p>
+<p class="font-body-sm text-body-sm text-secondary">Partly Cloudy</p>
+</div>
+</section>
+<!-- Quick Actions -->
+<section>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-4 -mx-container-margin px-container-margin">
+<button class="flex flex-col items-center gap-2 min-w-[80px] group">
+<div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center group-hover:scale-110 transition-transform duration-300 active:scale-95">
+<span class="material-symbols-outlined text-primary">qr_code_scanner</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">Pay</span>
+</button>
+<button class="flex flex-col items-center gap-2 min-w-[80px] group">
+<div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center group-hover:scale-110 transition-transform duration-300 active:scale-95">
+<span class="material-symbols-outlined text-primary">school</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">Classes</span>
+</button>
+<button class="flex flex-col items-center gap-2 min-w-[80px] group">
+<div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center group-hover:scale-110 transition-transform duration-300 active:scale-95">
+<span class="material-symbols-outlined text-primary">directions_bus</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">Transit</span>
+</button>
+<button class="flex flex-col items-center gap-2 min-w-[80px] group">
+<div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center group-hover:scale-110 transition-transform duration-300 active:scale-95">
+<span class="material-symbols-outlined text-primary">event</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">Events</span>
+</button>
+</div>
+</section>
+<!-- Continue Activity -->
+<section>
+<h3 class="font-subtitle-md text-subtitle-md text-primary mb-stack-sm px-2">Continue Activity</h3>
+<div class="base-card rounded-[24px] p-container-margin flex items-center gap-4 hover:scale-[1.02] transition-transform duration-300 cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">library_books</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-body-sm text-body-sm text-secondary truncate">CS 301 - Data Structures</p>
+<p class="font-subtitle-md text-subtitle-md text-primary truncate">Assignment 4 Review</p>
+</div>
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+</section>
+<!-- Highlights Bento -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Food Deals -->
+<div class="col-span-2 glass-panel rounded-[24px] p-container-margin hover:scale-[1.02] transition-transform duration-300 flex flex-col justify-between min-h-[200px] relative overflow-hidden group">
+<img class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500" data-alt="A macro shot of a gourmet artisanal sandwich with fresh greens, melted cheese, and toasted artisan bread on a dark slate board. Bright, appetizing lighting with a shallow depth of field. High-end food photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACo2VeoO_89awK-yNCoEmaE6d_qp8DyTvtq9YuVK3LuaNEBhvnrnbZaAzcHnFz6z8C2csLjnMqJEnmgpa5X-ooCMAp9Z2tehzoxYFJRoJ8sx7u0Z0aE7l800vcrk4DnnEmT397kLczBT8lZnQYttO51KNTtjqAzBe6RPWbUHR3C6uAncYwtduOqD2RQPhSSNFHXgEPps721mCwPLys3FxekQDQEaShrZtw2Yi6e-lHNf3iZkU5513pZGRuHBB7Za5C_C4vtg8JYzA"/>
+<div class="relative z-10 flex justify-between items-start">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">local_pizza</span>
+</div>
+<span class="bg-primary text-on-primary font-label-caps text-[10px] px-2 py-1 rounded-full">ENDING SOON</span>
+</div>
+<div class="relative z-10 mt-auto">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Campus Dining</p>
+<p class="font-subtitle-md text-subtitle-md text-primary">50% off Artisan Sandwiches</p>
+</div>
+</div>
+<!-- Freelancers -->
+<div class="col-span-2 glass-panel rounded-[24px] p-container-margin hover:scale-[1.02] transition-transform duration-300 flex flex-col justify-between min-h-[200px]">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">work</span>
+</div>
+</div>
+<div class="mt-auto">
+<p class="font-body-sm text-body-sm text-secondary mb-1">Student Services</p>
+<p class="font-subtitle-md text-subtitle-md text-primary">Need a photographer?</p>
+<div class="flex -space-x-2 mt-3">
+<img class="w-8 h-8 rounded-full border-2 border-white object-cover" data-alt="A close up portrait of a young college student with a professional camera slung over their shoulder, smiling confidently against a blurred bright campus background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZF4bTXheU6asUKH7xXmgfNzEoEPa7U7-nFEYZT6jguIqePz5rBxoUC9zmgnkMaw-k5uvrAtcjgwvQwkZfqD3npERSTRQNIlRAmc5ckRXTo90taBBJCBAiMEGzL9t7ahyPgD50KBj113wqYFnBLX77G3nc1rHhWccBBfjcimzXCZ7bPdtury9Bpkbx-W_e6hqiNd0xu62t_RXIJH612AyzC3DNsFjuv2f5Y8ZeLYSd0qOnnXfQdCNgQvYOttgZ5iD-f-GfDxRSpI4"/>
+<img class="w-8 h-8 rounded-full border-2 border-white object-cover" data-alt="A close up portrait of a college student holding a graphic design tablet, wearing trendy glasses, bright sunny lighting, blurred background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdfF7gYj159BV5cl2kkOEbM5WZV7YMO8DQxiQsuBsO7iSLrZVFfwTT3d4oSKbHpp2509TQ8pLd9mJ2IenpAt2HM0Tb10jAsdcwH-NfOOXZivFLj9uhUeogpphHOwS5PbUwWqjX-IsCfRmB2rGm1yZ42w47cQIZ4BaS3BVO0YHZ8e-K1Tgk_mhbJZSM-LqAv7UgdejWjWKXF6iA_RrM2nRRawcreB9-BiVJIHW6TQo7uEkePD1-inavI7AwvTsIp6iA9dCSAOCIkTU"/>
+<div class="w-8 h-8 rounded-full bg-surface-variant border-2 border-white flex items-center justify-center text-[10px] font-bold text-secondary">+5</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="hidden md:hidden md:flex fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-white/70 dark:bg-black/70 backdrop-blur-[30px] border border-white/20 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] flex justify-around items-center p-2 z-50">
+<!-- Home is Active -->
+<a class="relative flex flex-col items-center justify-center bg-primary dark:bg-on-primary text-on-primary dark:text-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">notifications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+<!-- Using block display for mobile bottom nav as instructed by responsive pivot -->
+<nav class="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-white/70 dark:bg-black/70 backdrop-blur-[30px] border border-white/20 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] flex justify-around items-center p-2 z-50">
+<!-- Home is Active -->
+<a class="relative flex flex-col items-center justify-center bg-primary dark:bg-on-primary text-on-primary dark:text-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">notifications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+</body></html>

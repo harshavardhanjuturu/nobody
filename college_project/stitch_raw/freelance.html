@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub Freelance Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#cfc4c5",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#1a1c1c",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#001c3b",
+                    "inverse-on-surface": "#f0f1f1",
+                    "on-secondary-container": "#636264",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f3f3f3",
+                    "secondary-container": "#e2dfe1",
+                    "surface-container-highest": "#e2e2e2",
+                    "surface": "#f9f9f9",
+                    "on-error": "#ffffff",
+                    "tertiary": "#000000",
+                    "on-surface-variant": "#4c4546",
+                    "surface-container-high": "#e8e8e8",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eeeeee",
+                    "surface-tint": "#5e5e5e",
+                    "primary-container": "#1b1b1b",
+                    "tertiary-fixed-dim": "#b0c8f0",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#c6c6c6",
+                    "on-tertiary-fixed-variant": "#30486a",
+                    "primary-fixed": "#e2e2e2",
+                    "tertiary-fixed": "#d5e3ff",
+                    "outline": "#7e7576",
+                    "on-secondary-fixed": "#1b1b1d",
+                    "secondary-fixed": "#e4e2e4",
+                    "inverse-surface": "#2f3131",
+                    "background": "#f9f9f9",
+                    "primary-fixed-dim": "#c6c6c6",
+                    "on-tertiary-fixed": "#001c3b",
+                    "on-primary-container": "#848484",
+                    "surface-variant": "#e2e2e2",
+                    "on-primary-fixed-variant": "#474747",
+                    "secondary": "#5f5e60",
+                    "surface-dim": "#dadada",
+                    "on-secondary-fixed-variant": "#474649",
+                    "surface-bright": "#f9f9f9",
+                    "primary": "#000000",
+                    "on-tertiary-container": "#6e85aa",
+                    "on-primary-fixed": "#1b1b1b",
+                    "secondary-fixed-dim": "#c8c6c8",
+                    "on-background": "#1a1c1c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "container-margin": "24px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px",
+                    "stack-xl": "64px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "subtitle-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "display": [
+                            "Inter"
+                    ],
+                    "label-caps": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "34px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "subtitle-md": [
+                            "18px",
+                            {
+                                    "lineHeight": "26px",
+                                    "letterSpacing": "0em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "0em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+        },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #FAFAFA;
+        }
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 40px 40px -15px rgba(0,0,0,0.1);
+        }
+        .canvas-card {
+            background-color: #ffffff;
+            box-shadow: inset 0 0 0 1px #E5E5E7;
+        }
+        
+        /* Hide scrollbar for horizontal scrolling but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface font-body-lg antialiased pb-32 md:pb-8 pt-24 min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 dark:bg-black/70 backdrop-blur-[20px] border-b border-white/20 dark:border-white/10 shadow-[0_40px_40px_-15px_rgba(0,0,0,0.1)]">
+<div class="flex justify-between items-center px-container-margin py-stack-md w-full max-w-7xl mx-auto">
+<button class="text-primary dark:text-on-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out flex items-center md:hidden">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md tracking-tight text-primary dark:text-on-primary font-bold">CampusHub</h1>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-subtitle-md text-subtitle-md text-secondary dark:text-secondary-fixed-dim hover:opacity-80 transition-opacity" href="#">Explore</a>
+<a class="font-subtitle-md text-subtitle-md text-primary font-bold hover:opacity-80 transition-opacity" href="#">My Services</a>
+<a class="font-subtitle-md text-subtitle-md text-secondary dark:text-secondary-fixed-dim hover:opacity-80 transition-opacity" href="#">Bookings</a>
+</nav>
+<button class="text-primary dark:text-on-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out flex items-center overflow-hidden rounded-full w-8 h-8 border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a confident college student freelancer in a bright, modern minimalist space. High-key lighting, clean white aesthetic with subtle gray shadows. Professional yet approachable mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaPls0xqsPdVKPMC9vyJAqWDb7NzUOCsxE1zuBTt9XU2BGism_VqP_kQvztjH3VpJ4cZ3Bb8uEP_7w8LPE63oKF9tZv42JBc-vhwV8PZ8stkLd_byeozwxE9420HQReMN8N0C9w_xLFvgMkp01Qr8q-eHdIKrjIv7gkTVpBUVqig5_i-ZRJ91x8XNNBBuhbuHYOVHJcCdwOZ5jtmvhKakPAAJ98j7RtWEoficY32IYNIXGvlzcP5UJFqUrbB56TuGbjHlwMgSICYs"/>
+</button>
+</div>
+</header>
+<main class="flex-grow w-full max-w-7xl mx-auto px-container-margin">
+<!-- Dashboard Header & Stats -->
+<section class="mb-stack-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-stack-sm">Freelancer Dashboard</h2>
+<p class="font-body-lg text-body-lg text-secondary">Manage your portfolio, track bookings, and grow your campus business.</p>
+</div>
+<button class="bg-primary text-on-primary font-subtitle-md text-subtitle-md px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-md w-full md:w-auto">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add</span>
+                    Create New Service
+                </button>
+</div>
+<!-- Bento Stats -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="canvas-card rounded-xl p-stack-md flex flex-col gap-stack-sm hover:scale-[1.02] transition-transform">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-subtitle-md text-subtitle-md">Active Listings</span>
+<span class="material-symbols-outlined text-xl">inventory_2</span>
+</div>
+<span class="font-headline-md text-headline-md text-primary">4</span>
+</div>
+<div class="canvas-card rounded-xl p-stack-md flex flex-col gap-stack-sm hover:scale-[1.02] transition-transform">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-subtitle-md text-subtitle-md">Pending Bookings</span>
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+</div>
+<span class="font-headline-md text-headline-md text-primary">12</span>
+</div>
+<div class="canvas-card rounded-xl p-stack-md flex flex-col gap-stack-sm hover:scale-[1.02] transition-transform">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-subtitle-md text-subtitle-md">Total Earnings</span>
+<span class="material-symbols-outlined text-xl">payments</span>
+</div>
+<span class="font-headline-md text-headline-md text-primary">$840</span>
+</div>
+<div class="canvas-card rounded-xl p-stack-md flex flex-col gap-stack-sm hover:scale-[1.02] transition-transform bg-primary text-on-primary shadow-lg border-0">
+<div class="flex items-center justify-between opacity-80">
+<span class="font-subtitle-md text-subtitle-md">Overall Rating</span>
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex items-end gap-2">
+<span class="font-headline-md text-headline-md">4.9</span>
+<span class="font-body-sm text-body-sm opacity-80 pb-1">(32 reviews)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Area -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-container-margin">
+<!-- Left Column: Portfolio / Active Services (Takes up 2 columns on lg) -->
+<div class="lg:col-span-2 space-y-stack-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary">Your Services</h3>
+<button class="font-subtitle-md text-subtitle-md text-secondary hover:text-primary transition-colors flex items-center gap-1">
+                        Filter <span class="material-symbols-outlined text-sm">filter_list</span>
+</button>
+</div>
+<!-- Service List -->
+<div class="space-y-gutter">
+<!-- Service Card 1 -->
+<div class="canvas-card rounded-xl p-4 flex flex-col md:flex-row gap-stack-md hover:scale-[1.01] transition-transform group relative overflow-hidden">
+<div class="w-full md:w-48 h-32 rounded-lg overflow-hidden shrink-0 relative">
+<img alt="UI Design Service" class="w-full h-full object-cover" data-alt="High quality UI/UX design showcase mockup displayed on a sleek laptop screen, minimal desk setup. White and silver color palette with subtle shadows, clean modern futuristic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWnSBhC7CVDxceD_DGUDmk78_X6akZzZ31IBqGH6Kdaf_j4u9hIbdtFmKh-lcmlUAv82U7JH8_JnLss_CFAFxwTemBgK_c9qqsa7kCLkgwR3lYj0TjqjdvwQAhMcgbearzwZQ70dztYehsIka1nixvMZlsFGGpkFIxfwBj3tWrZuP1diQCJpcFtThVI1AxkWKCFLEOak55kGyOE8wXtxcLmZFxbvJqdfJ_chzZEDA8PWzhx2hYjN3ouu1cgQdf7jsCMa0UmRtT-zw"/>
+<div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-caps text-label-caps text-primary">5.0</span>
+</div>
+</div>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-secondary tracking-wider">UI/UX DESIGN</span>
+<span class="font-subtitle-md text-subtitle-md text-primary font-bold">$45/hr</span>
+</div>
+<h4 class="font-subtitle-md text-subtitle-md text-primary mb-2 line-clamp-1">Mobile App Interface Design</h4>
+<p class="font-body-sm text-body-sm text-secondary line-clamp-2 mb-stack-sm">Clean, modern interface design for your next campus startup or project. Includes wireframes and high-fidelity mockups in Figma.</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-full font-body-sm text-body-sm text-secondary text-xs">Figma</span>
+<span class="px-3 py-1 bg-surface-container rounded-full font-body-sm text-body-sm text-secondary text-xs">Prototyping</span>
+</div>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Service Card 2 -->
+<div class="canvas-card rounded-xl p-4 flex flex-col md:flex-row gap-stack-md hover:scale-[1.01] transition-transform group relative overflow-hidden">
+<div class="w-full md:w-48 h-32 rounded-lg overflow-hidden shrink-0 relative">
+<img alt="Photography Service" class="w-full h-full object-cover" data-alt="Close up of a premium digital camera lens resting on a clean white marble surface, soft window light creating beautiful reflections. Minimalist, high-end photography aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVvG3BA7HP5MP8bCY_9L5sivfgdpQD9M_Yp43pFbSFnmyqxEgir9pHwpffAHayMO_zaAEp0ThtEpbcxnfKd-EjV5Ki0GNEmfcQ-MINJ5Op0x3gmyr1bcqzR33wr7QZdMkujrH9PK2aCIa54hnYBZus1762Imm_EvKN_zP9fyjkloTEDOxTVpdvSvkr7YbeKlyu9uswTyFjEuzRNM1W00SXlGWcDLsFW-FHDpXixhc8pKV0LZk2e2PWab5sHejkwB6NcoWk0y8P3fs"/>
+<div class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-caps text-label-caps text-primary">4.8</span>
+</div>
+</div>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-secondary tracking-wider">PHOTOGRAPHY</span>
+<span class="font-subtitle-md text-subtitle-md text-primary font-bold">$120/session</span>
+</div>
+<h4 class="font-subtitle-md text-subtitle-md text-primary mb-2 line-clamp-1">Graduation &amp; Portrait Sessions</h4>
+<p class="font-body-sm text-body-sm text-secondary line-clamp-2 mb-stack-sm">Professional portraits around campus landmarks. Includes 15 edited high-resolution photos delivered within 48 hours.</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container rounded-full font-body-sm text-body-sm text-secondary text-xs">Portraits</span>
+<span class="px-3 py-1 bg-surface-container rounded-full font-body-sm text-body-sm text-secondary text-xs">Editing</span>
+</div>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Recent Activity / Bookings -->
+<div class="space-y-stack-md">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md text-primary">Upcoming Bookings</h3>
+<div class="glass-panel rounded-xl p-stack-md space-y-stack-md">
+<!-- Booking Item -->
+<div class="flex items-start gap-stack-sm pb-stack-sm border-b border-outline-variant/30 last:border-0 last:pb-0">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+</div>
+<div class="flex-grow">
+<p class="font-subtitle-md text-subtitle-md text-primary">App Design Consultation</p>
+<p class="font-body-sm text-body-sm text-secondary">with Sarah J. • Today, 2:00 PM</p>
+</div>
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+<!-- Booking Item -->
+<div class="flex items-start gap-stack-sm pb-stack-sm border-b border-outline-variant/30 last:border-0 last:pb-0">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+</div>
+<div class="flex-grow">
+<p class="font-subtitle-md text-subtitle-md text-primary">Grad Shoot</p>
+<p class="font-body-sm text-body-sm text-secondary">with Mike T. • Tomorrow, 10:00 AM</p>
+</div>
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Quick Action -->
+<div class="canvas-card rounded-xl p-stack-md flex flex-col items-center justify-center text-center gap-stack-sm">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary mb-2">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<h4 class="font-subtitle-md text-subtitle-md text-primary">Withdraw Funds</h4>
+<p class="font-body-sm text-body-sm text-secondary mb-2">$320 available</p>
+<button class="w-full bg-surface-container hover:bg-surface-variant text-primary font-subtitle-md text-subtitle-md py-2 rounded-full transition-colors">
+                        Transfer to Bank
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-white/70 dark:bg-black/70 backdrop-blur-[30px] border border-white/20 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] flex justify-around items-center p-2 z-50">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">search</span>
+</a>
+<a class="relative flex flex-col items-center justify-center bg-primary dark:bg-on-primary text-on-primary dark:text-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">notifications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub - Skill Exchange</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for horizontal lists */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#cfc4c5",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#001c3b",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-secondary-container": "#636264",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f3f3f3",
+                        "secondary-container": "#e2dfe1",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "on-surface-variant": "#4c4546",
+                        "surface-container-high": "#e8e8e8",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eeeeee",
+                        "surface-tint": "#5e5e5e",
+                        "primary-container": "#1b1b1b",
+                        "tertiary-fixed-dim": "#b0c8f0",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#c6c6c6",
+                        "on-tertiary-fixed-variant": "#30486a",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary-fixed": "#d5e3ff",
+                        "outline": "#7e7576",
+                        "on-secondary-fixed": "#1b1b1d",
+                        "secondary-fixed": "#e4e2e4",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "on-tertiary-fixed": "#001c3b",
+                        "on-primary-container": "#848484",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary-fixed-variant": "#474747",
+                        "secondary": "#5f5e60",
+                        "surface-dim": "#dadada",
+                        "on-secondary-fixed-variant": "#474649",
+                        "surface-bright": "#f9f9f9",
+                        "primary": "#000000",
+                        "on-tertiary-container": "#6e85aa",
+                        "on-primary-fixed": "#1b1b1b",
+                        "secondary-fixed-dim": "#c8c6c8",
+                        "on-background": "#1a1c1c"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "gutter": "16px",
+                        "container-margin": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "subtitle-md": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "label-caps": ["Inter", "sans-serif"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["28px", { lineHeight: "34px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "body-sm": ["14px", { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "subtitle-md": ["18px", { lineHeight: "26px", letterSpacing: "0em", fontWeight: "500" }],
+                        "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }],
+                        "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "display": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-lg selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="bg-white/70 dark:bg-black/70 backdrop-blur-[20px] fixed top-0 w-full z-50 border-b border-white/20 dark:border-white/10 shadow-[0_40px_40px_-15px_rgba(0,0,0,0.1)]">
+<div class="flex justify-between items-center px-container-margin py-stack-md w-full">
+<button class="text-primary dark:text-on-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md tracking-tight text-primary dark:text-on-primary">
+                CampusHub
+            </h1>
+<button class="hover:opacity-80 transition-opacity scale-95 duration-200 ease-out overflow-hidden rounded-full w-8 h-8 ring-1 ring-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A tightly cropped, high-resolution portrait of a confident college student against a clean, bright minimalist background. The lighting is soft and natural, emphasizing a premium, sophisticated aesthetic consistent with a high-end academic networking application. The color palette is composed of crisp whites, soft grays, and natural skin tones, creating a polished and approachable look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcfdXvDPVhc8k0MTVw4EK-7nbCH5toAygh9jC-PFAg69rcLGwp168cm2I9sPgCxgY7gcXY8R_A_-TKjrz_CO15BQc5_q-JHfG41kOd0HRK3yasaavpweL3FqqXmbmjqYr27sVCc8PsKi1QPCuORA558W9RR40pHtHd9KYe-S1jbf-HRKxjJcYsYTIUCyqwptM1Fr41ratqXjDcl7vKI97bf25RIIzEQN3rqFPoBN-u2fLRgcQuHvKupn3ovH8rakoC3KAhTSP0K8o"/>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="pt-[100px] pb-[120px] px-container-margin max-w-7xl mx-auto flex flex-col gap-stack-xl">
+<!-- Hero Section -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="font-display text-display text-primary tracking-tight">Skill Exchange</h2>
+<p class="font-subtitle-md text-subtitle-md text-on-surface-variant max-w-2xl">
+                Master a new framework, perfect your backhand, or ace Organic Chem. Connect with verified campus experts and trade knowledge.
+            </p>
+<!-- Filter Chips (Glassmorphic) -->
+<div class="flex gap-stack-sm overflow-x-auto hide-scrollbar py-2 mt-stack-sm">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-subtitle-md text-subtitle-md whitespace-nowrap hover:scale-105 active:scale-95 transition-all shadow-[0_10px_20px_rgba(0,0,0,0.1)]">
+                    All Skills
+                </button>
+<button class="px-6 py-2 rounded-full bg-white/70 backdrop-blur-[20px] ring-1 ring-outline-variant/30 text-on-surface font-subtitle-md text-subtitle-md whitespace-nowrap hover:bg-surface-container hover:scale-105 active:scale-95 transition-all">
+                    Programming
+                </button>
+<button class="px-6 py-2 rounded-full bg-white/70 backdrop-blur-[20px] ring-1 ring-outline-variant/30 text-on-surface font-subtitle-md text-subtitle-md whitespace-nowrap hover:bg-surface-container hover:scale-105 active:scale-95 transition-all">
+                    Music &amp; Arts
+                </button>
+<button class="px-6 py-2 rounded-full bg-white/70 backdrop-blur-[20px] ring-1 ring-outline-variant/30 text-on-surface font-subtitle-md text-subtitle-md whitespace-nowrap hover:bg-surface-container hover:scale-105 active:scale-95 transition-all">
+                    Academics
+                </button>
+<button class="px-6 py-2 rounded-full bg-white/70 backdrop-blur-[20px] ring-1 ring-outline-variant/30 text-on-surface font-subtitle-md text-subtitle-md whitespace-nowrap hover:bg-surface-container hover:scale-105 active:scale-95 transition-all">
+                    Fitness
+                </button>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-container-margin">
+<!-- Featured Card (Spans 2 columns on md+) -->
+<article class="md:col-span-2 lg:col-span-2 bg-surface-container-lowest rounded-[24px] p-container-margin relative overflow-hidden flex flex-col justify-between min-h-[340px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] ring-1 ring-outline-variant/30 group hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
+<!-- Decorative Abstract Background -->
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-tertiary-fixed opacity-50 rounded-full blur-[80px] pointer-events-none"></div>
+<div class="relative z-10 flex flex-col h-full justify-between">
+<div class="flex justify-between items-start">
+<div class="flex gap-stack-md items-center">
+<div class="w-16 h-16 rounded-full overflow-hidden ring-4 ring-white shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A professional, bright portrait of a young male computer science student looking directly at the camera with a subtle smile. He is wearing a clean, dark minimalist t-shirt. The lighting is high-key and flattering, emphasizing a modern, trustworthy, and premium aesthetic suitable for a high-end educational platform profile. Background is a soft, blurred off-white." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMP1n0nWbb_CuVfhJNoEegUAXD9zV3A3lQLGXBepa3CiGbt1rEHdlVaA_brn8rV1Eudye2PrxfyJu-xVlFTrIyqCyFxm1UKpi3_mhIn5zL24zAhi36D1o3G7uXz14OfL2bqQKVVD8zG_qQ_Md2CpXPiP2aAqCd1eHN7dzbq7Tmb5P-ZEEMkEe6EjRkS7rIfZnqdG8YIHhbzIxy5lWbyOC13136upB29iX1r4P4dkoZxNkLx7PT7l6avU_N3MEjR8GUYl6ykljrouk"/>
+</div>
+<div>
+<h3 class="font-subtitle-md text-subtitle-md text-primary">Alex Chen</h3>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>Senior, CS Major</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full ring-1 ring-outline-variant/50 shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="font-label-caps text-label-caps text-primary tracking-wider">1.2K PTS</span>
+</div>
+</div>
+<div class="mt-stack-lg">
+<h4 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">Advanced Python &amp; Data Structures</h4>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-stack-md">
+                            I'll help you crush technical interviews and master Pythonic design patterns. Guaranteed to level up your algorithms game.
+                        </p>
+<div class="flex flex-wrap items-center justify-between gap-stack-md mt-auto pt-stack-md border-t border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="flex text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</span>
+<span class="font-subtitle-md text-subtitle-md text-primary">4.9</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">(124 reviews)</span>
+</div>
+<button class="bg-primary text-on-primary font-subtitle-md text-subtitle-md px-8 py-3 rounded-full hover:scale-105 active:scale-95 transition-transform duration-300 shadow-[0_10px_20px_rgba(0,0,0,0.15)] flex items-center gap-2">
+                                Book Session
+                                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Standard Card 1 -->
+<article class="bg-surface-container-lowest rounded-[24px] p-container-margin relative flex flex-col h-[340px] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] ring-1 ring-outline-variant/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300">
+<div class="flex justify-between items-start mb-stack-md">
+<div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A bright, close-up portrait of a female student with a warm, welcoming expression. She is in a naturally lit, minimalist room with a hint of an acoustic guitar out of focus in the background. The aesthetic is clean, modern, and premium, utilizing a light mode palette with soft whites and gentle shadows to convey approachability and artistic skill." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsEB-DRoLn5TrEfROmvzMMSlvkLJO8Qq-qrCUwrZ1yzVO415IyELtaFzA8-2rzUjyrSMEHMYVWnjQSgxoZapIj6PmrAQT7eIXz3pWjANvGpf6oNvTX92rLqAN7-aabyz6btfGan5XL_heLHOI_k0hqlkKqtM340xCD1TTJ0vluw6YBlehJdjFUwWhp3JvtSwrYCF1Lj1FM3yrA2rbU1qg96jHicwOdS937plYDeAavonnYJHU8ivRLIYPm83SqmSHBv1Jtk9g7GKk"/>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">electric_bolt</span>
+<span class="font-label-caps text-label-caps text-on-surface">850 PTS</span>
+</div>
+</div>
+<div class="mb-1">
+<h3 class="font-subtitle-md text-subtitle-md text-primary">Sarah Jenkins</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Music Performance</p>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mt-stack-sm mb-auto">Acoustic Guitar for Beginners</h4>
+<div class="pt-stack-md border-t border-outline-variant/30 mt-stack-md flex flex-col gap-stack-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-subtitle-md text-subtitle-md text-primary">5.0</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">(42 reviews)</span>
+</div>
+<button class="w-full bg-white text-primary border border-outline-variant/50 font-subtitle-md text-subtitle-md px-4 py-2.5 rounded-full hover:bg-surface-container-low hover:border-primary transition-colors flex justify-center items-center gap-2">
+                        View Profile
+                    </button>
+</div>
+</article>
+<!-- Standard Card 2 -->
+<article class="bg-surface-container-lowest rounded-[24px] p-container-margin relative flex flex-col h-[340px] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] ring-1 ring-outline-variant/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300">
+<div class="flex justify-between items-start mb-stack-md">
+<div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A sophisticated headshot of a stylish male design student in a brightly lit, minimalist studio environment. The photography style is high-end editorial, featuring crisp focus, soft natural light, and a neutral, pristine color palette. The image conveys professionalism and creativity, fitting for a premium digital design marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzmtInGIQWQv4NKBkPttKZ5iafm3kLaoq-AxjjfyKC3oKOE9bH6LGPTqS1QKd_utLKiXq4oZcw50Rdl_UCVkLGa6Hu9hGbArLLH2eqDQYKVN4xLlrI3L2YiRAF2InQ1m1UxUFYtso7tl7l70Udsy9YoYZng7Psnk63Zyvyj14tgsgp1XJD22KEr6n09Yejw_sEYPMq5fN3uk88GXrPew3b3hy9KHA9Y2esH3pjxb_wYfhjs35zwF8B3R8gKkxIXVNSbuCcwy2fWEI"/>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">electric_bolt</span>
+<span class="font-label-caps text-label-caps text-on-surface">620 PTS</span>
+</div>
+</div>
+<div class="mb-1">
+<h3 class="font-subtitle-md text-subtitle-md text-primary">David Kim</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Interaction Design</p>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mt-stack-sm mb-auto">UI/UX Portfolio Critique</h4>
+<div class="pt-stack-md border-t border-outline-variant/30 mt-stack-md flex flex-col gap-stack-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-subtitle-md text-subtitle-md text-primary">4.8</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">(89 reviews)</span>
+</div>
+<button class="w-full bg-white text-primary border border-outline-variant/50 font-subtitle-md text-subtitle-md px-4 py-2.5 rounded-full hover:bg-surface-container-low hover:border-primary transition-colors flex justify-center items-center gap-2">
+                        View Profile
+                    </button>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-white/70 dark:bg-black/70 backdrop-blur-[30px] fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full border border-white/20 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] flex justify-around items-center p-2 z-50">
+<!-- Active Tab: Home -->
+<button class="relative flex flex-col items-center justify-center bg-primary dark:bg-on-primary text-on-primary dark:text-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 duration-300" style="transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);">
+<span class="material-symbols-outlined font-label-caps text-label-caps" style="font-variation-settings: 'FILL' 1;">home</span>
+</button>
+<!-- Inactive Tabs -->
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" style="transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);">
+<span class="material-symbols-outlined font-label-caps text-label-caps">search</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" style="transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);">
+<span class="material-symbols-outlined font-label-caps text-label-caps">account_balance_wallet</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" style="transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);">
+<span class="material-symbols-outlined font-label-caps text-label-caps">notifications</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" style="transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);">
+<span class="material-symbols-outlined font-label-caps text-label-caps">person</span>
+</button>
+</nav>
+</body></html>

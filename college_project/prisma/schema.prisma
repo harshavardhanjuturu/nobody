@@ -1,0 +1,227 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                      String             @id @default(uuid())
+  phoneNumber             String             @unique
+  email                   String
+  name                    String
+  role                    String             @default("student") // student or admin
+  avatarUrl               String?
+  isVerified              Boolean            @default(true)
+  studentIdNumber         String?
+  isSuspended             Boolean            @default(false)
+  suspensionReason        String?
+  trustScore              Float              @default(5.0)
+  buyerRating             Float              @default(5.0)
+  buyerRatingCount        Int                @default(0)
+  delivererRating         Float              @default(5.0)
+  delivererRatingCount    Int                @default(0)
+  isFreelancer            Boolean            @default(false)
+  isSkillExchanger        Boolean            @default(false)
+  isFoodVendor            Boolean            @default(false)
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  posts                   Post[]
+  orders                  Order[]
+  messagesSent            Message[]          @relation("MessageFrom")
+  messagesReceived        Message[]          @relation("MessageTo")
+  pushSubscriptions       PushSubscription[]
+  deliveryGigs            DeliveryGig[]      @relation("DelivererGigs")
+  foodReviews             FoodReview[]
+  disputesReported        DisputeReport[]    @relation("Reporter")
+  disputesAgainst         DisputeReport[]    @relation("ReportedUser")
+  deliveryReviewsGiven    DeliveryReview[]   @relation("ReviewGiven")
+  deliveryReviewsReceived DeliveryReview[]   @relation("ReviewReceived")
+}
+
+model OTPSession {
+  id          String   @id @default(uuid())
+  phoneNumber String
+  email       String
+  otp         String
+  expiresAt   DateTime
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  content   String
+  imageUrl  String?
+  likes     Int      @default(0)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model FoodItem {
+  id          String       @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  imageUrl    String?
+  discount    String?      // e.g. "50% off"
+  category    String       // e.g. "Noodles", "Dosai", "Beverage"
+  hotelName   String       @default("Campus Dining") // e.g. "KC", "Campus Dining"
+  isAvailable Boolean      @default(true)
+  rating      Float        @default(4.5)
+  reviewCount Int          @default(0)
+  reviews     FoodReview[]
+  createdAt   DateTime     @default(now())
+}
+
+model FoodReview {
+  id         String   @id @default(uuid())
+  foodItemId String
+  foodItem   FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating     Float    // 1 to 5 stars
+  comment    String?
+  createdAt  DateTime @default(now())
+}
+
+model Order {
+  id              String       @id @default(uuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items           String       // JSON string representing ordered items
+  total           Float
+  status          String       @default("pending") // pending, preparing, completed, cancelled
+  deliveryType    String       @default("pickup")  // pickup or peer_delivery
+  deliveryAddress String?
+  deliveryFee     Float        @default(0)
+  deliveryGig     DeliveryGig?
+  disputes        DisputeReport[]
+  createdAt       DateTime     @default(now())
+}
+
+model DeliveryGig {
+  id              String           @id @default(uuid())
+  orderId         String           @unique
+  order           Order            @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  delivererId     String?
+  deliverer       User?            @relation("DelivererGigs", fields: [delivererId], references: [id], onDelete: SetNull)
+  status          String           @default("open") // open, accepted, picked_up, delivered, cancelled
+  deliveryCode    String?          // 4-digit Handshake Verification PIN
+  currentLat      Float?
+  currentLng      Float?
+  lastLocationAt  DateTime?
+  disputes        DisputeReport[]
+  reviews         DeliveryReview[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model DeliveryReview {
+  id           String      @id @default(uuid())
+  gigId        String
+  gig          DeliveryGig @relation(fields: [gigId], references: [id], onDelete: Cascade)
+  fromUserId   String
+  fromUser     User        @relation("ReviewGiven", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUserId     String
+  toUser       User        @relation("ReviewReceived", fields: [toUserId], references: [id], onDelete: Cascade)
+  rating       Float       // 1 to 5 stars
+  feedbackType String      // "buyer_to_deliverer" or "deliverer_to_buyer"
+  comment      String?
+  createdAt    DateTime    @default(now())
+}
+
+model DisputeReport {
+  id             String       @id @default(uuid())
+  orderId        String
+  order          Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  gigId          String?
+  gig            DeliveryGig? @relation(fields: [gigId], references: [id], onDelete: SetNull)
+  reporterId     String
+  reporter       User         @relation("Reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUserId String
+  reportedUser   User         @relation("ReportedUser", fields: [reportedUserId], references: [id], onDelete: Cascade)
+  reason         String       // "never_delivered", "refused_payment", "damaged_food", "unresponsive", "other"
+  details        String
+  status         String       @default("open") // "open", "investigating", "resolved", "dismissed", "account_suspended"
+  adminNotes     String?
+  createdAt      DateTime     @default(now())
+}
+
+model CommunityGroup {
+  id           String   @id @default(uuid())
+  name         String
+  description  String
+  membersCount Int      @default(1)
+  imageUrl     String?
+  events       Event[]
+  createdAt    DateTime @default(now())
+}
+
+model Event {
+  id           String          @id @default(uuid())
+  title        String
+  description  String
+  date         String
+  membersCount Int             @default(0)
+  imageUrl     String?
+  groupId      String?
+  group        CommunityGroup? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  createdAt    DateTime        @default(now())
+}
+
+model MarketplaceItem {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  price       Float
+  imageUrl    String?
+  category    String   // e.g. "Electronics", "Textbooks", "Tickets"
+  sellerName  String
+  sellerPhone String
+  createdAt   DateTime @default(now())
+}
+
+model FreelanceProject {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  budget      Float
+  duration    String   // e.g. "2 weeks"
+  clientName  String
+  clientPhone String
+  createdAt   DateTime @default(now())
+}
+
+model SkillPost {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  skillOffered  String
+  skillWanted   String
+  userName      String
+  userPhone     String
+  createdAt     DateTime @default(now())
+}
+
+model Message {
+  id         String   @id @default(uuid())
+  fromUserId String
+  toUserId   String
+  content    String
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  from       User     @relation("MessageFrom", fields: [fromUserId], references: [id], onDelete: Cascade)
+  to         User     @relation("MessageTo", fields: [toUserId], references: [id], onDelete: Cascade)
+}
+
+model PushSubscription {
+  id       String @id @default(uuid())
+  userId   String
+  endpoint String @unique
+  p256dh   String
+  auth     String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

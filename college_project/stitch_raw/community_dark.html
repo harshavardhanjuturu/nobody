@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub - Community</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-dim": "#141313",
+                "on-tertiary-fixed-variant": "#414753",
+                "outline-variant": "#46464a",
+                "on-primary-fixed-variant": "#474647",
+                "primary": "#c8c6c7",
+                "on-primary-fixed": "#1c1b1c",
+                "on-primary-container": "#7a797a",
+                "surface-container": "#201f1f",
+                "surface-variant": "#353434",
+                "on-secondary": "#313030",
+                "on-tertiary-fixed": "#161c27",
+                "on-tertiary-container": "#747987",
+                "inverse-primary": "#5f5e5f",
+                "on-error": "#690005",
+                "secondary-container": "#474746",
+                "inverse-surface": "#e5e2e1",
+                "tertiary-container": "#050a15",
+                "inverse-on-surface": "#313030",
+                "secondary": "#c8c6c5",
+                "surface-tint": "#c8c6c7",
+                "secondary-fixed-dim": "#c8c6c5",
+                "tertiary-fixed-dim": "#c1c6d6",
+                "on-secondary-fixed-variant": "#474746",
+                "secondary-fixed": "#e5e2e1",
+                "on-surface-variant": "#c7c6ca",
+                "error-container": "#93000a",
+                "error": "#ffb4ab",
+                "surface-container-low": "#1c1b1b",
+                "on-secondary-fixed": "#1c1b1b",
+                "outline": "#919094",
+                "on-surface": "#e5e2e1",
+                "primary-fixed": "#e5e2e3",
+                "surface-bright": "#3a3939",
+                "on-tertiary": "#2b313c",
+                "on-secondary-container": "#b7b5b4",
+                "on-primary": "#313031",
+                "primary-fixed-dim": "#c8c6c7",
+                "on-background": "#e5e2e1",
+                "surface-container-high": "#2b2a2a",
+                "surface": "#141313",
+                "tertiary": "#c1c6d6",
+                "background": "#141313",
+                "surface-container-highest": "#353434",
+                "surface-container-lowest": "#0e0e0e",
+                "tertiary-fixed": "#dde2f2",
+                "primary-container": "#0a0a0b",
+                "on-error-container": "#ffdad6"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "unit": "8px",
+                "margin-desktop": "40px",
+                "gutter": "24px",
+                "margin-mobile": "16px",
+                "container-max": "1280px"
+        },
+        "fontFamily": {
+                "display-lg": [
+                        "Manrope"
+                ],
+                "body-md": [
+                        "Manrope"
+                ],
+                "headline-lg-mobile": [
+                        "Manrope"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ],
+                "headline-lg": [
+                        "Manrope"
+                ]
+        },
+        "fontSize": {
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "1.1",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "1.0",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body { background-color: #141313; }
+        .glass-panel {
+            background: rgba(32, 31, 31, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 40px 40px -15px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .canvas-card {
+            background: rgba(32, 31, 31, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        .canvas-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="text-on-background font-body-md min-h-screen pb-24 md:pb-0 bg-background">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-[20px] shadow-[0_40px_40px_-15px_rgba(0,0,0,0.5)] border-b border-white/10 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full scale-95 duration-200 ease-out mt-2 rounded-2xl md:scale-100 md:mt-0 md:rounded-none">
+<button class="text-primary hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg tracking-tight text-primary">CampusHub</h1>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center text-primary hover:opacity-80 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[100px] px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto space-y-8">
+<!-- Tab Navigation (Desktop) / Section Header (Mobile) -->
+<div class="flex items-center justify-between">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Community</h2>
+<div class="hidden md:flex space-x-4">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-sm text-label-sm hover:scale-105 transition-transform">All</button>
+<button class="bg-black/50 backdrop-blur-[20px] text-primary px-6 py-2 rounded-full font-label-sm text-label-sm hover:scale-105 transition-transform border border-outline-variant">Lost &amp; Found</button>
+<button class="bg-black/50 backdrop-blur-[20px] text-primary px-6 py-2 rounded-full font-label-sm text-label-sm hover:scale-105 transition-transform border border-outline-variant">Rides</button>
+<button class="bg-black/50 backdrop-blur-[20px] text-primary px-6 py-2 rounded-full font-label-sm text-label-sm hover:scale-105 transition-transform border border-outline-variant">Polls</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Feed -->
+<div class="md:col-span-8 space-y-4">
+<!-- Lost & Found Item -->
+<article class="canvas-card rounded-xl p-4 flex flex-col space-y-2 cursor-pointer transition-transform duration-300">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close up, high key portrait of a young female college student with a bright expression, lit by soft natural light. Minimalist background, high end photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEKmU6eg3eVSBqhoqcMW3pj6Lr8MOvoHPF_16Bk2Z7kN7aVLxudAVWGbRWeAZDXhevpO1jCwBcbFY9GHrxpwHBiK-xwLCkI-gXNdGmEoCwOUKOZxQABZhKJ8D4or7w39BDYN0K79iLm-2wITx-RVFBxWGwVT3dT46A9k0llalJzTTdmXER57Q_Sqwt7ZnLI-ZfABhPTB4btyMk5oVf3bKppkSTL2DDTEneE87EK0ZcBkOKUPAZNwywOMuNt-gMwlocnJ8R_uqnEfQ"/>
+</div>
+<div>
+<p class="font-body-md text-[14px] text-on-surface font-semibold">Sarah J.</p>
+<p class="font-body-md text-[12px] text-on-surface-variant">2 hours ago</p>
+</div>
+</div>
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full font-label-sm text-label-sm">Lost Item</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">AirPods Pro Case (No Pods)</h3>
+<p class="font-body-md text-body-md text-secondary">Left my case in the Science Library, 3rd floor near the quiet study section around 2 PM today. It has a small scratch on the back.</p>
+<div class="h-48 w-full rounded-lg overflow-hidden mt-2">
+<img class="w-full h-full object-cover" data-alt="A sleek white wireless earbud charging case resting on a clean, light wood study desk. Soft, diffuse natural lighting from a nearby window creates gentle shadows. High-end product photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKBi8B0Vr8xlPjFRgMjn9LVtu0GXGteLzBREdx_wPUWZ9cW8AqfyvjUuqayV7XTPvjP6mhgH24_E4ZfuGH0CUbvCy5kna_aivw5mAdvpUdIkWp6liqCWMh7k6gymKzcXQUXCozmXc1u16mvMzfGPr7WUmxHRZbSJqH8Wd20Y5b2MIJg0PP5vrqL_Pl0ngUoK2Cxd8OtXNGV5NoR9PvNXi0vJaVm0DPX_i2zGoLXM1AVcMXJCf0zDJ263qnykEQv2fAgnmNwOq5hmk"/>
+</div>
+<div class="flex items-center space-x-6 pt-2">
+<button class="flex items-center space-x-2 text-primary hover:text-on-surface transition-colors bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="forum">forum</span>
+<span class="font-label-sm text-label-sm">4 Replies</span>
+</button>
+<button class="flex items-center space-x-2 text-primary hover:text-on-surface transition-colors bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="share">share</span>
+<span class="font-label-sm text-label-sm">Share</span>
+</button>
+</div>
+</article>
+<!-- Ride Sharing Item -->
+<article class="canvas-card rounded-xl p-4 flex flex-col space-y-2 cursor-pointer transition-transform duration-300">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="person">person</span>
+</div>
+<div>
+<p class="font-body-md text-[14px] text-on-surface font-semibold">Mike T.</p>
+<p class="font-body-md text-[12px] text-on-surface-variant">5 hours ago</p>
+</div>
+</div>
+<span class="bg-tertiary-container text-on-tertiary px-3 py-1 rounded-full font-label-sm text-label-sm">Ride Offer</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Heading to Metro Airport (Friday 4PM)</h3>
+<div class="flex items-center space-x-4 text-on-surface-variant mt-2 bg-surface-container-low p-4 rounded-lg border border-outline-variant">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary mb-1" data-icon="location_on">location_on</span>
+<span class="font-label-sm text-label-sm">Campus North</span>
+</div>
+<div class="flex-1 border-t-2 border-dashed border-outline-variant relative">
+<span class="material-symbols-outlined absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-surface-tint bg-surface-container-low px-2" data-icon="directions_car">directions_car</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary mb-1" data-icon="flight_takeoff">flight_takeoff</span>
+<span class="font-label-sm text-label-sm">Airport</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-secondary mt-2">Got 2 spots left in my car. Splitting gas. Let me know if you need a ride before the break!</p>
+<div class="flex items-center justify-between pt-2">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-surface-container object-cover" data-alt="A tiny profile picture of a young man smiling softly, bright lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV3_pZ-boZVZo87HM9myPIWtRdjAn9vczpqpld7B8n9OrFBl2ECTX4_xZtoOJ3FgPnkaVDlbK4ibCFqwqhFs3WQIvt6cRYqjfhKm4u_oVL2bkh0Xyvb5Wso3iX45IpvrjNajJnM_ZCWLI7dgmXRWv1r87eXNbmd3fiyGv8iWrE-UYgt_ofR3SzmHJtorirfdFvE3nDYV9-whu7iHYJvmctTTZYogiRLMl_cf_19lorucaL5zy6KWVwBe1J4aJcnOVeghiENxeoQt8"/>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-secondary" data-icon="add">add</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-sm text-label-sm hover:scale-105 transition-transform">Request Seat</button>
+</div>
+</article>
+</div>
+<!-- Right Column: Widgets -->
+<aside class="md:col-span-4 space-y-4 hidden md:block">
+<!-- Poll Widget -->
+<div class="glass-panel rounded-xl p-4 space-y-2 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]" data-icon="poll">poll</span>
+</div>
+<h4 class="font-headline-lg-mobile text-[20px] text-primary relative z-10 font-semibold">Campus Poll</h4>
+<p class="font-body-md text-body-md text-on-surface-variant relative z-10">Should the library extend hours during midterms?</p>
+<div class="space-y-3 mt-4 relative z-10">
+<div class="relative w-full h-12 bg-surface-container-low rounded-lg overflow-hidden flex items-center px-4 cursor-pointer hover:bg-surface-container transition-colors border border-outline-variant">
+<div class="absolute left-0 top-0 h-full bg-primary/20 w-[75%] transition-all duration-500"></div>
+<span class="font-body-md text-[14px] text-primary relative z-10 font-medium">Yes, 24/7</span>
+<span class="font-label-sm text-label-sm text-secondary ml-auto relative z-10">75%</span>
+</div>
+<div class="relative w-full h-12 bg-surface-container-low rounded-lg overflow-hidden flex items-center px-4 cursor-pointer hover:bg-surface-container transition-colors border border-outline-variant">
+<div class="absolute left-0 top-0 h-full bg-primary/20 w-[20%] transition-all duration-500"></div>
+<span class="font-body-md text-[14px] text-primary relative z-10 font-medium">Extend to 2 AM</span>
+<span class="font-label-sm text-label-sm text-secondary ml-auto relative z-10">20%</span>
+</div>
+<div class="relative w-full h-12 bg-surface-container-low rounded-lg overflow-hidden flex items-center px-4 cursor-pointer hover:bg-surface-container transition-colors border border-outline-variant">
+<div class="absolute left-0 top-0 h-full bg-primary/20 w-[5%] transition-all duration-500"></div>
+<span class="font-body-md text-[14px] text-primary relative z-10 font-medium">Current hours are fine</span>
+<span class="font-label-sm text-label-sm text-secondary ml-auto relative z-10">5%</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-surface-tint mt-4 text-center">1,240 votes • Ends in 2 days</p>
+</div>
+<!-- Action Card -->
+<div class="canvas-card rounded-xl p-4 flex flex-col items-center text-center space-y-2">
+<div class="w-16 h-16 rounded-full bg-surface-container-low border border-outline-variant flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary text-[32px]" data-icon="post_add">post_add</span>
+</div>
+<h4 class="font-headline-lg-mobile text-[20px] text-primary font-semibold">Start a Discussion</h4>
+<p class="font-body-md text-[14px] text-secondary">Got a question or something to share with campus?</p>
+<button class="bg-primary text-on-primary w-full py-3 rounded-full font-label-sm text-label-sm hover:scale-105 transition-transform mt-4">Create Post</button>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-black/70 backdrop-blur-[30px] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex justify-around items-center p-2 z-50">
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-[10px] mt-1 hidden">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm text-[10px] mt-1 hidden">search</span>
+</a>
+<a class="relative flex flex-col items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-label-sm text-[10px] mt-1 hidden">community</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-label-sm text-[10px] mt-1 hidden">notifications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-[10px] mt-1 hidden">person</span>
+</a>
+</nav>
+</body></html>

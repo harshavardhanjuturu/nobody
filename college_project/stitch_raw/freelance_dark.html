@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub Freelance Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-dim": "#141313",
+                "on-tertiary-fixed-variant": "#414753",
+                "outline-variant": "#46464a",
+                "on-primary-fixed-variant": "#474647",
+                "primary": "#c8c6c7",
+                "on-primary-fixed": "#1c1b1c",
+                "on-primary-container": "#7a797a",
+                "surface-container": "#201f1f",
+                "surface-variant": "#353434",
+                "on-secondary": "#313030",
+                "on-tertiary-fixed": "#161c27",
+                "on-tertiary-container": "#747987",
+                "inverse-primary": "#5f5e5f",
+                "on-error": "#690005",
+                "secondary-container": "#474746",
+                "inverse-surface": "#e5e2e1",
+                "tertiary-container": "#050a15",
+                "inverse-on-surface": "#313030",
+                "secondary": "#c8c6c5",
+                "surface-tint": "#c8c6c7",
+                "secondary-fixed-dim": "#c8c6c5",
+                "tertiary-fixed-dim": "#c1c6d6",
+                "on-secondary-fixed-variant": "#474746",
+                "secondary-fixed": "#e5e2e1",
+                "on-surface-variant": "#c7c6ca",
+                "error-container": "#93000a",
+                "error": "#ffb4ab",
+                "surface-container-low": "#1c1b1b",
+                "on-secondary-fixed": "#1c1b1b",
+                "outline": "#919094",
+                "on-surface": "#e5e2e1",
+                "primary-fixed": "#e5e2e3",
+                "surface-bright": "#3a3939",
+                "on-tertiary": "#2b313c",
+                "on-secondary-container": "#b7b5b4",
+                "on-primary": "#313031",
+                "primary-fixed-dim": "#c8c6c7",
+                "on-background": "#e5e2e1",
+                "surface-container-high": "#2b2a2a",
+                "surface": "#141313",
+                "tertiary": "#c1c6d6",
+                "background": "#141313",
+                "surface-container-highest": "#353434",
+                "surface-container-lowest": "#0e0e0e",
+                "tertiary-fixed": "#dde2f2",
+                "primary-container": "#0a0a0b",
+                "on-error-container": "#ffdad6"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "unit": "8px",
+                "margin-desktop": "40px",
+                "gutter": "24px",
+                "margin-mobile": "16px",
+                "container-max": "1280px"
+        },
+        "fontFamily": {
+                "display-lg": [
+                        "Manrope"
+                ],
+                "body-md": [
+                        "Manrope"
+                ],
+                "headline-lg-mobile": [
+                        "Manrope"
+                ],
+                "label-sm": [
+                        "JetBrains Mono"
+                ],
+                "headline-lg": [
+                        "Manrope"
+                ]
+        },
+        "fontSize": {
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "1.1",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "1.0",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: #141313;
+        }
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            background-color: rgba(32, 31, 31, 0.7);
+            box-shadow: 0 40px 40px -15px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .canvas-card {
+            background-color: #201f1f;
+            box-shadow: inset 0 0 0 1px #353434;
+        }
+        
+        /* Hide scrollbar for horizontal scrolling but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="text-on-surface font-body-md antialiased pb-32 md:pb-8 pt-24 min-h-screen flex flex-col bg-background">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/70 backdrop-blur-[20px] border-b border-white/5 shadow-[0_40px_40px_-15px_rgba(0,0,0,0.3)]">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<button class="text-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out flex items-center md:hidden">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:text-headline-lg tracking-tight text-primary font-bold">CampusHub</h1>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-body-md text-body-md text-secondary hover:opacity-80 transition-opacity" href="#">Explore</a>
+<a class="font-body-md text-body-md text-primary font-bold hover:opacity-80 transition-opacity" href="#">My Services</a>
+<a class="font-body-md text-body-md text-secondary hover:opacity-80 transition-opacity" href="#">Bookings</a>
+</nav>
+<button class="text-primary hover:opacity-80 transition-opacity scale-95 duration-200 ease-out flex items-center overflow-hidden rounded-full w-8 h-8 border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a confident college student freelancer in a bright, modern minimalist space. High-key lighting, clean white aesthetic with subtle gray shadows. Professional yet approachable mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaPls0xqsPdVKPMC9vyJAqWDb7NzUOCsxE1zuBTt9XU2BGism_VqP_kQvztjH3VpJ4cZ3Bb8uEP_7w8LPE63oKF9tZv42JBc-vhwV8PZ8stkLd_byeozwxE9420HQReMN8N0C9w_xLFvgMkp01Qr8q-eHdIKrjIv7gkTVpBUVqig5_i-ZRJ91x8XNNBBuhbuHYOVHJcCdwOZ5jtmvhKakPAAJ98j7RtWEoficY32IYNIXGvlzcP5UJFqUrbB56TuGbjHlwMgSICYs"/>
+</button>
+</div>
+</header>
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Dashboard Header & Stats -->
+<section class="mb-10">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">Freelancer Dashboard</h2>
+<p class="font-body-md text-body-md text-secondary">Manage your portfolio, track bookings, and grow your campus business.</p>
+</div>
+<button class="bg-primary text-on-primary font-body-md text-body-md px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-md w-full md:w-auto font-medium">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add</span>
+                    Create New Service
+                </button>
+</div>
+<!-- Bento Stats -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="canvas-card rounded-xl p-4 flex flex-col gap-2 hover:scale-[1.02] transition-transform">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-body-md text-body-md">Active Listings</span>
+<span class="material-symbols-outlined text-xl">inventory_2</span>
+</div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">4</span>
+</div>
+<div class="canvas-card rounded-xl p-4 flex flex-col gap-2 hover:scale-[1.02] transition-transform">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-body-md text-body-md">Pending Bookings</span>
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+</div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">12</span>
+</div>
+<div class="canvas-card rounded-xl p-4 flex flex-col gap-2 hover:scale-[1.02] transition-transform">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-body-md text-body-md">Total Earnings</span>
+<span class="material-symbols-outlined text-xl">payments</span>
+</div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">$840</span>
+</div>
+<div class="canvas-card rounded-xl p-4 flex flex-col gap-2 hover:scale-[1.02] transition-transform bg-primary text-on-primary shadow-lg border-0">
+<div class="flex items-center justify-between opacity-80">
+<span class="font-body-md text-body-md">Overall Rating</span>
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex items-end gap-2">
+<span class="font-headline-lg-mobile text-headline-lg-mobile">4.9</span>
+<span class="font-label-sm text-label-sm opacity-80 pb-1">(32 reviews)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Area -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Left Column: Portfolio / Active Services (Takes up 2 columns on lg) -->
+<div class="lg:col-span-2 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Your Services</h3>
+<button class="font-body-md text-body-md text-secondary hover:text-primary transition-colors flex items-center gap-1">
+                        Filter <span class="material-symbols-outlined text-sm">filter_list</span>
+</button>
+</div>
+<!-- Service List -->
+<div class="space-y-gutter">
+<!-- Service Card 1 -->
+<div class="canvas-card rounded-xl p-4 flex flex-col md:flex-row gap-4 hover:scale-[1.01] transition-transform group relative overflow-hidden">
+<div class="w-full md:w-48 h-32 rounded-lg overflow-hidden shrink-0 relative">
+<img alt="UI Design Service" class="w-full h-full object-cover" data-alt="High quality UI/UX design showcase mockup displayed on a sleek laptop screen, minimal desk setup. White and silver color palette with subtle shadows, clean modern futuristic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWnSBhC7CVDxceD_DGUDmk78_X6akZzZ31IBqGH6Kdaf_j4u9hIbdtFmKh-lcmlUAv82U7JH8_JnLss_CFAFxwTemBgK_c9qqsa7kCLkgwR3lYj0TjqjdvwQAhMcgbearzwZQ70dztYehsIka1nixvMZlsFGGpkFIxfwBj3tWrZuP1diQCJpcFtThVI1AxkWKCFLEOak55kGyOE8wXtxcLmZFxbvJqdfJ_chzZEDA8PWzhx2hYjN3ouu1cgQdf7jsCMa0UmRtT-zw"/>
+<div class="absolute top-2 right-2 bg-surface-container/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-primary">5.0</span>
+</div>
+</div>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider">UI/UX DESIGN</span>
+<span class="font-body-md text-body-md text-primary font-bold">$45/hr</span>
+</div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2 line-clamp-1 text-xl">Mobile App Interface Design</h4>
+<p class="font-body-md text-body-md text-secondary line-clamp-2 mb-2 text-sm">Clean, modern interface design for your next campus startup or project. Includes wireframes and high-fidelity mockups in Figma.</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-secondary">Figma</span>
+<span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-secondary">Prototyping</span>
+</div>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Service Card 2 -->
+<div class="canvas-card rounded-xl p-4 flex flex-col md:flex-row gap-4 hover:scale-[1.01] transition-transform group relative overflow-hidden">
+<div class="w-full md:w-48 h-32 rounded-lg overflow-hidden shrink-0 relative">
+<img alt="Photography Service" class="w-full h-full object-cover" data-alt="Close up of a premium digital camera lens resting on a clean white marble surface, soft window light creating beautiful reflections. Minimalist, high-end photography aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVvG3BA7HP5MP8bCY_9L5sivfgdpQD9M_Yp43pFbSFnmyqxEgir9pHwpffAHayMO_zaAEp0ThtEpbcxnfKd-EjV5Ki0GNEmfcQ-MINJ5Op0x3gmyr1bcqzR33wr7QZdMkujrH9PK2aCIa54hnYBZus1762Imm_EvKN_zP9fyjkloTEDOxTVpdvSvkr7YbeKlyu9uswTyFjEuzRNM1W00SXlGWcDLsFW-FHDpXixhc8pKV0LZk2e2PWab5sHejkwB6NcoWk0y8P3fs"/>
+<div class="absolute top-2 right-2 bg-surface-container/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1 shadow-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-primary">4.8</span>
+</div>
+</div>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider">PHOTOGRAPHY</span>
+<span class="font-body-md text-body-md text-primary font-bold">$120/session</span>
+</div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2 line-clamp-1 text-xl">Graduation &amp; Portrait Sessions</h4>
+<p class="font-body-md text-body-md text-secondary line-clamp-2 mb-2 text-sm">Professional portraits around campus landmarks. Includes 15 edited high-resolution photos delivered within 48 hours.</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-secondary">Portraits</span>
+<span class="px-3 py-1 bg-surface-variant rounded-full font-label-sm text-label-sm text-secondary">Editing</span>
+</div>
+<button class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Recent Activity / Bookings -->
+<div class="space-y-6">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Upcoming Bookings</h3>
+<div class="glass-panel rounded-xl p-6 space-y-6">
+<!-- Booking Item -->
+<div class="flex items-start gap-4 pb-4 border-b border-outline-variant/30 last:border-0 last:pb-0">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-primary font-medium">App Design Consultation</p>
+<p class="font-body-md text-body-md text-secondary text-sm">with Sarah J. • Today, 2:00 PM</p>
+</div>
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+<!-- Booking Item -->
+<div class="flex items-start gap-4 pb-4 border-b border-outline-variant/30 last:border-0 last:pb-0">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-primary font-medium">Grad Shoot</p>
+<p class="font-body-md text-body-md text-secondary text-sm">with Mike T. • Tomorrow, 10:00 AM</p>
+</div>
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Quick Action -->
+<div class="canvas-card rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-primary mb-2">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<h4 class="font-body-md text-body-md text-primary font-medium">Withdraw Funds</h4>
+<p class="font-body-md text-body-md text-secondary mb-2 text-sm">$320 available</p>
+<button class="w-full bg-surface-variant hover:bg-surface-bright text-primary font-body-md text-body-md py-2 rounded-full transition-colors font-medium">
+                        Transfer to Bank
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-surface-container/70 backdrop-blur-[30px] border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex justify-around items-center p-2 z-50">
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">search</span>
+</a>
+<a class="relative flex flex-col items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">notifications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+</body></html>

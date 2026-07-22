@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#cfc4c5",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#001c3b",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-secondary-container": "#636264",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f3f3f3",
+                        "secondary-container": "#e2dfe1",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "on-surface-variant": "#4c4546",
+                        "surface-container-high": "#e8e8e8",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eeeeee",
+                        "surface-tint": "#5e5e5e",
+                        "primary-container": "#1b1b1b",
+                        "tertiary-fixed-dim": "#b0c8f0",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#c6c6c6",
+                        "on-tertiary-fixed-variant": "#30486a",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary-fixed": "#d5e3ff",
+                        "outline": "#7e7576",
+                        "on-secondary-fixed": "#1b1b1d",
+                        "secondary-fixed": "#e4e2e4",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "on-tertiary-fixed": "#001c3b",
+                        "on-primary-container": "#848484",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary-fixed-variant": "#474747",
+                        "secondary": "#5f5e60",
+                        "surface-dim": "#dadada",
+                        "on-secondary-fixed-variant": "#474649",
+                        "surface-bright": "#f9f9f9",
+                        "primary": "#000000",
+                        "on-tertiary-container": "#6e85aa",
+                        "on-primary-fixed": "#1b1b1b",
+                        "secondary-fixed-dim": "#c8c6c8",
+                        "on-background": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-margin": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "subtitle-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "subtitle-md": ["18px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAFAFA;
+        }
+        .ambient-shadow {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+        .card-inner-stroke {
+            box-shadow: inset 0 0 0 1px #E5E5E7;
+        }
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background font-body-lg min-h-screen relative pb-32 pt-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 dark:bg-black/70 backdrop-blur-[20px] border-b border-white/20 dark:border-white/10 shadow-[0_40px_40px_-15px_rgba(0,0,0,0.1)]">
+<div class="flex justify-between items-center px-container-margin py-stack-md w-full max-w-7xl mx-auto">
+<button class="text-primary dark:text-on-primary hover:opacity-80 transition-opacity active:scale-95 duration-200 ease-out">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md tracking-tight text-primary dark:text-on-primary">CampusHub</h1>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden hover:opacity-80 transition-opacity active:scale-95 duration-200 ease-out cursor-pointer">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close up, high quality, professional headshot of a college student in a brightly lit modern library environment. The photo is clean and crisp, fitting a premium digital platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZP-KveLmbz51bbIaS5Mje6fkyFdXpNDf1rZ5suOA_ejihE_wl7XHRgdN5BDAiu2jI5XX-_FOdjQ9ZwC3z6yL1IUu_ecO7fgp6eHunQ0TTnQGJVavQeR4KViGCc13Ut0w-gS7Gh5WPm_YaiZqu2gpWYseiUKeANgatl_dGONVWeXU7rriTAC40XfSE4b7Yi1fWfPZgfvVQohauIjjOTBtvEG685FtV8hU8uB8bFMpkQAHyvMBtvLj8OZcWDw2nM8nXQk0ME0sec4g"/>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-container-margin">
+<!-- Marketplace Header & Filter -->
+<div class="mb-stack-lg flex flex-col md:flex-row md:items-center justify-between gap-stack-md">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">Marketplace</h2>
+<p class="font-body-lg text-body-lg text-secondary">Discover premium pre-owned essentials on campus.</p>
+</div>
+<div class="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-subtitle-md text-subtitle-md whitespace-nowrap flex-shrink-0 hover:scale-105 transition-transform">All Items</button>
+<button class="px-6 py-2 rounded-full glass-panel text-primary font-subtitle-md text-subtitle-md whitespace-nowrap flex-shrink-0 card-inner-stroke hover:scale-105 transition-transform">Tech</button>
+<button class="px-6 py-2 rounded-full glass-panel text-primary font-subtitle-md text-subtitle-md whitespace-nowrap flex-shrink-0 card-inner-stroke hover:scale-105 transition-transform">Mobility</button>
+<button class="px-6 py-2 rounded-full glass-panel text-primary font-subtitle-md text-subtitle-md whitespace-nowrap flex-shrink-0 card-inner-stroke hover:scale-105 transition-transform">Textbooks</button>
+</div>
+</div>
+<!-- Product Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack-md md:gap-stack-lg">
+<!-- Featured Item -->
+<div class="md:col-span-2 lg:col-span-2 bg-surface-container-lowest rounded-xl p-5 card-inner-stroke ambient-shadow flex flex-col group cursor-pointer hover:scale-[1.01] transition-transform duration-300">
+<div class="relative w-full h-64 md:h-80 rounded-lg overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, high-end matte black road bicycle leaning against a modern concrete wall on a sunny university campus. The lighting is crisp and natural, highlighting the bike's clean lines and minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRN7lqQZRY2wpGlBdG4VfKkQCM1sysy6-mo--Libl-s4JmmHu2fygp5HryhmQN6d0Z5JX7iCu7rx9uVgmlXf6UavFnx0Xho6QA8NZHkdiQGWY_E9-TETetDd5Wv14uMmdlil6RP9--4h2JFHIvCzsc-XJh7Ed_JjCGsKirVpILAOWnEEmya80g7_3OSoZTVydc3ai5Wabaf80EOqx5xQkc7Xb1F7Ev0pbnlRa1v7KaCMgYv9scWH4xyBjFfNh1f9KXh4kcgR4yxvA"/>
+<div class="absolute top-4 right-4 glass-panel px-3 py-1 rounded-full font-label-caps text-label-caps text-primary">Featured</div>
+</div>
+<div class="flex justify-between items-start mt-auto">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Specialized Allez Sport</h3>
+<p class="font-body-sm text-body-sm text-secondary">Excellent condition, gently used for 1 semester.</p>
+</div>
+<span class="font-headline-md text-headline-md text-primary">$450</span>
+</div>
+</div>
+<!-- Standard Items -->
+<div class="bg-surface-container-lowest rounded-xl p-5 card-inner-stroke ambient-shadow flex flex-col group cursor-pointer hover:scale-[1.01] transition-transform duration-300">
+<div class="relative w-full h-48 rounded-lg overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A space gray MacBook Pro open on a minimalist white desk, displaying a clean design interface. A small succulent plant and a notebook are nearby. Soft, diffused daylight creates a premium tech vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJyuwfW4ceSmGMIjELLtZPs9RkDRRcDCrAb4idZKynFvVF_H575Wvrma5mI0rNJQ-6xMaq7ujfWhQl1C2XP6vojEbq9V83S_jHXE0Nmp1-zEMPFlh9vCMboak34aPKyjT7-ktYkHRUbv06YPX7XHOXCywZZD3UrrG9My9Rr2IXl9Vfjx4yZXp6UBkDrXWhIDBB2Au7c6lwnIYG97f11SAAOin92xL4JHUcYHwJ_h2q5NSe3fz3bXddmKwR4v5F3yKmzXvip9xJZO4"/>
+</div>
+<div class="flex justify-between items-start mt-auto">
+<div>
+<h3 class="font-subtitle-md text-subtitle-md text-primary mb-1">MacBook Pro M1</h3>
+<p class="font-body-sm text-body-sm text-secondary">16GB RAM, 512GB SSD.</p>
+</div>
+<span class="font-subtitle-md text-subtitle-md text-primary">$800</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-5 card-inner-stroke ambient-shadow flex flex-col group cursor-pointer hover:scale-[1.01] transition-transform duration-300">
+<div class="relative w-full h-48 rounded-lg overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A neatly stacked pile of advanced computer science and mathematics textbooks on a light wooden table. The top book has a sleek, modern cover design. The lighting is bright and even." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKUF6dHIkuuN40MgAK-OuZPvYlfb20lGcUut28xjCEpe8mgTPS0w6EQwsQ1w9Gfx7VhALHSBPVKq3AkYgJcssCWDgs2SrrsJ7RR2WL-QH02Mkq2FmcTRNoPjjME2VeQKHXnaqBu0ohXQk9Icn2RrPqsWaGQPJx-1TsbFcE6V0sqdP2CIANP-NUU2Voc59VTXxI-kMYTKKDoHnLU6tPaKhYgrateEODg7Sn5x-gkslpWtEQjTGa2eVKUW4S4dS5mFajz1DHoCXI4HU"/>
+</div>
+<div class="flex justify-between items-start mt-auto">
+<div>
+<h3 class="font-subtitle-md text-subtitle-md text-primary mb-1">CS Textbooks Bundle</h3>
+<p class="font-body-sm text-body-sm text-secondary">Intro to Algorithms &amp; more.</p>
+</div>
+<span class="font-subtitle-md text-subtitle-md text-primary">$120</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-5 card-inner-stroke ambient-shadow flex flex-col group cursor-pointer hover:scale-[1.01] transition-transform duration-300">
+<div class="relative w-full h-48 rounded-lg overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A pair of pristine white noise-cancelling over-ear headphones resting on a minimalist concrete surface. Soft studio lighting highlights the premium materials and sleek design of the audio equipment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuY2gbd--RUS7Auvr_4xRsQ0Nvwn3NfjvsPCM_GTbOlwt1G2T5iT5bnFK1cBFtBVnR8VbCdEFb8yMAVXdJcQ59hc2GS_eoROF212IV954kAS9TSd3j0VX2xHvfjDjXiJ5QnsrOI_dJKTz1Y-amFYdAhPVwcXXMxAAqSMYMJ_S_NFc3MLIRcdsdrTtFp2NgHmBytNVBzNePbDOqG9bxsH-f-ib4Vz6z2BXb6e2o9zpJb5L5_HuzMTvOEY1pEwpQXeJ7c6glGRBm7Zg"/>
+</div>
+<div class="flex justify-between items-start mt-auto">
+<div>
+<h3 class="font-subtitle-md text-subtitle-md text-primary mb-1">Sony WH-1000XM4</h3>
+<p class="font-body-sm text-body-sm text-secondary">Like new, with case.</p>
+</div>
+<span class="font-subtitle-md text-subtitle-md text-primary">$200</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-5 card-inner-stroke ambient-shadow flex flex-col group cursor-pointer hover:scale-[1.01] transition-transform duration-300">
+<div class="relative w-full h-48 rounded-lg overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist white electric scooter parked on a clean campus walkway surrounded by subtle greenery. The scooter looks modern, sleek, and high-tech, perfect for quick commuting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhUnWSydcMxXeWVlAKka_8wl8xGpZ2LmYxMwaRp3J0yPSJhi-5ratghw7D01dZDsiv7qv9gdtwd-bqZI5MWmAqcQGlE2TpT9UE4aDcEXe9lPyZBkHSZeBJuAUcJoArIrB06qYgrtQlwpDIxAd-PtVnr4rh45e_fQrSz1GTz5_9VNJ-wyfYxuJXbe9Ld3zIQiZUkEnF-Rw6hoy9IVSytFRr1iMjpllSwviVtmSe52dV-M77134lRUV1RPruF5gNLgCSw7Bf6oKdTRs"/>
+</div>
+<div class="flex justify-between items-start mt-auto">
+<div>
+<h3 class="font-subtitle-md text-subtitle-md text-primary mb-1">Electric Scooter</h3>
+<p class="font-body-sm text-body-sm text-secondary">Range: 15 miles. Fast charger.</p>
+</div>
+<span class="font-subtitle-md text-subtitle-md text-primary">$300</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (Post Item) -->
+<div class="fixed bottom-24 right-container-margin z-40 hidden md:block">
+<button class="bg-primary text-on-primary rounded-full px-6 py-4 flex items-center gap-2 ambient-shadow hover:scale-105 active:scale-95 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-subtitle-md text-subtitle-md">Post Item</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-white/70 dark:bg-black/70 backdrop-blur-[30px] border border-white/20 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] flex justify-around items-center p-2 z-50 md:hidden">
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</button>
+<button class="relative flex flex-col items-center justify-center bg-primary dark:bg-on-primary text-on-primary dark:text-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<!-- Quick Post Button replacing middle icon on mobile for Market focus -->
+<button class="flex flex-col items-center justify-center bg-surface-container-high text-primary rounded-full w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300 card-inner-stroke">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</nav>
+</body></html>

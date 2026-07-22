@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-dim": "#141313",
+                        "on-tertiary-fixed-variant": "#414753",
+                        "outline-variant": "#46464a",
+                        "on-primary-fixed-variant": "#474647",
+                        "primary": "#c8c6c7",
+                        "on-primary-fixed": "#1c1b1c",
+                        "on-primary-container": "#7a797a",
+                        "surface-container": "#201f1f",
+                        "surface-variant": "#353434",
+                        "on-secondary": "#313030",
+                        "on-tertiary-fixed": "#161c27",
+                        "on-tertiary-container": "#747987",
+                        "inverse-primary": "#5f5e5f",
+                        "on-error": "#690005",
+                        "secondary-container": "#474746",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-container": "#050a15",
+                        "inverse-on-surface": "#313030",
+                        "secondary": "#c8c6c5",
+                        "surface-tint": "#c8c6c7",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "tertiary-fixed-dim": "#c1c6d6",
+                        "on-secondary-fixed-variant": "#474746",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-surface-variant": "#c7c6ca",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "outline": "#919094",
+                        "on-surface": "#e5e2e1",
+                        "primary-fixed": "#e5e2e3",
+                        "surface-bright": "#3a3939",
+                        "on-tertiary": "#2b313c",
+                        "on-secondary-container": "#b7b5b4",
+                        "on-primary": "#313031",
+                        "primary-fixed-dim": "#c8c6c7",
+                        "on-background": "#e5e2e1",
+                        "surface-container-high": "#2b2a2a",
+                        "surface": "#141313",
+                        "tertiary": "#c1c6d6",
+                        "background": "#141313",
+                        "surface-container-highest": "#353434",
+                        "surface-container-lowest": "#0e0e0e",
+                        "tertiary-fixed": "#dde2f2",
+                        "primary-container": "#0a0a0b",
+                        "on-error-container": "#ffdad6"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        gutter: "16px",
+                        "container-margin": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "subtitle-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["28px", { lineHeight: "34px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "body-sm": ["14px", { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "subtitle-md": ["18px", { lineHeight: "26px", letterSpacing: "0em", fontWeight: "500" }],
+                        "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }],
+                        "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "display": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background-color: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 40px 40px -15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .base-card {
+            background-color: #201f1f;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+        .hover-lift {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen font-body-lg">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-[20px] text-on-primary border-b border-white/10 shadow-[0_40px_40px_-15px_rgba(0,0,0,0.5)]">
+<div class="flex justify-between items-center px-container-margin py-stack-md w-full">
+<button class="scale-95 duration-200 ease-out hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md tracking-tight text-primary">CampusHub</h1>
+<button class="scale-95 duration-200 ease-out hover:opacity-80 transition-opacity">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small, circular avatar portrait of a modern college student smiling softly against a neutral grey background. The lighting is bright and clean, typical of a high-end application profile picture. The style is highly polished photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWP7sCQR0xJUzhYa6IP2ithKndkUCPnCYP7FQk8uINT-l0SodQHcCEpk-T8YRXuH34N64Mx2QJj64nMJr5_WyispxNI5Yj6v-QSouwSfzxGhe6DB1ZmeYdGs8P0LEFnnG-vW54rLRD3LAIBOjNEi8RyWQola55EkcbdRjtm9i9GqMguL39GF1ZvnmlcxQnaOxDod_3eFAEJz9mIfhEUsiayVfA5WmHl5uztutTK3YND_yE6Ozs4fCuFRyoy2nRzA_g5V3L451WLS0"/>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[88px] pb-32 px-container-margin md:px-0 max-w-5xl mx-auto space-y-stack-lg">
+<!-- Profile Header Glass Card -->
+<section class="glass-panel rounded-[32px] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center gap-stack-lg mt-stack-md">
+<!-- Decorative background elements -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2"></div>
+<div class="w-32 h-32 md:w-40 md:h-40 shrink-0 relative">
+<img class="w-full h-full rounded-full object-cover shadow-lg ring-4 ring-surface-container" data-alt="A high-resolution, professional portrait of an ambitious university student looking confident, wearing a smart-casual minimalist outfit. The lighting is soft studio lighting with a clean white background, conveying a sense of premium prestige and modern academia." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgNs9yjMhV6TCqRzPLkYdtf2bust_YQGEva6Md-ZJObV50bhaVUqpz5P49_JPR5fZBUXwk2yMBJ9sMkrEJiXQ2G2tSu5kJ2gPpx__NSM338u2Chrwy0luB9rfHyNRbzRtzQ03_KIX9hic9bWMxyMs3yirTErcisZPpE43mSt7F5b5W_dW1be8JJATs28T7OMrJa3nX8B52hnCn3MxJbDoGDAFmVWka8LmIySGilHuamuvQzwQ11j97YpwJmuey93YlTEnMA22GHAM"/>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center hover-lift shadow-md">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<div class="text-center md:text-left flex-1 space-y-stack-sm">
+<h2 class="font-display text-display-mobile md:text-display">Alex Morgan</h2>
+<p class="font-subtitle-md text-subtitle-md text-secondary">Senior, Computer Science &amp; Design</p>
+<div class="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
+<span class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface text-sm font-medium">President, Design Club</span>
+<span class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface text-sm font-medium">Dean's List 2023</span>
+</div>
+</div>
+<div class="flex md:flex-col gap-4 self-center md:self-stretch justify-center">
+<button class="bg-primary text-on-primary px-6 py-3 rounded-full font-subtitle-md text-subtitle-md hover-lift">
+                    Edit Profile
+                </button>
+<button class="bg-surface-container/50 backdrop-blur-md px-6 py-3 rounded-full font-subtitle-md text-subtitle-md hover-lift border border-outline-variant/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">settings</span> Settings
+                </button>
+</div>
+</section>
+<!-- Bento Grid Layout for Stats & Modules -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-stack-md">
+<!-- Wallet / Reward Points -->
+<div class="base-card rounded-[24px] p-6 col-span-1 md:col-span-8 flex flex-col justify-between hover-lift min-h-[200px]">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-subtitle-md text-subtitle-md text-secondary">Campus Wallet</h3>
+<p class="font-display text-display-mobile md:text-display mt-2">12,450 <span class="text-xl font-normal text-secondary">pts</span></p>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+</div>
+<div class="flex gap-4 mt-stack-md">
+<button class="flex-1 bg-surface-container-high text-on-surface py-3 rounded-xl font-medium hover:bg-surface-container-highest transition-colors">Redeem</button>
+<button class="flex-1 bg-surface-container-high text-on-surface py-3 rounded-xl font-medium hover:bg-surface-container-highest transition-colors">History</button>
+</div>
+</div>
+<!-- Dark Mode Toggle Widget -->
+<div class="base-card rounded-[24px] p-6 col-span-1 md:col-span-4 flex flex-col items-center justify-center hover-lift text-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-3xl">dark_mode</span>
+</div>
+<h3 class="font-subtitle-md text-subtitle-md mb-2">Appearance</h3>
+<label class="relative inline-flex items-center cursor-pointer mt-2">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-14 h-7 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface-container-highest after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-primary after:border-gray-600 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Achievements (Side-scrolling on mobile) -->
+<div class="col-span-1 md:col-span-12 space-y-stack-sm mt-stack-sm">
+<div class="flex justify-between items-center px-2">
+<h3 class="font-headline-md text-headline-md-mobile md:text-headline-md">Achievements</h3>
+<button class="text-secondary font-medium hover:text-primary transition-colors">View All</button>
+</div>
+<div class="flex overflow-x-auto gap-4 pb-4 snap-x -mx-container-margin px-container-margin md:mx-0 md:px-0 scrollbar-hide">
+<!-- Achievement Card 1 -->
+<div class="base-card rounded-2xl p-5 min-w-[240px] snap-center shrink-0 hover-lift flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-[#FFD700]/20 flex items-center justify-center text-[#FFD700]">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+</div>
+<div>
+<p class="font-subtitle-md text-subtitle-md">Hackathon Winner</p>
+<p class="text-sm text-secondary">Fall 2023</p>
+</div>
+</div>
+<!-- Achievement Card 2 -->
+<div class="base-card rounded-2xl p-5 min-w-[240px] snap-center shrink-0 hover-lift flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">local_library</span>
+</div>
+<div>
+<p class="font-subtitle-md text-subtitle-md">Top Scholar</p>
+<p class="text-sm text-secondary">GPA 3.9+</p>
+</div>
+</div>
+<!-- Achievement Card 3 -->
+<div class="base-card rounded-2xl p-5 min-w-[240px] snap-center shrink-0 hover-lift flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-2xl">verified</span>
+</div>
+<div>
+<p class="font-subtitle-md text-subtitle-md">Verified Freelancer</p>
+<p class="text-sm text-secondary">10+ Gigs</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Freelance Earnings -->
+<div class="glass-panel rounded-[24px] p-6 col-span-1 md:col-span-6 flex flex-col hover-lift">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-subtitle-md text-subtitle-md flex items-center gap-2">
+<span class="material-symbols-outlined">work</span> Freelance Hub
+                    </h3>
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-xs font-semibold">Active</span>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<p class="text-secondary mb-1">Total Earnings</p>
+<p class="font-headline-lg text-headline-lg-mobile md:text-headline-lg">$1,250.00</p>
+<div class="mt-4 pt-4 border-t border-outline-variant/30 flex justify-between text-sm">
+<span class="text-secondary">3 Active Gigs</span>
+<a class="text-primary font-medium" href="#">Manage Gigs →</a>
+</div>
+</div>
+</div>
+<!-- Recent Orders -->
+<div class="base-card rounded-[24px] p-6 col-span-1 md:col-span-6 hover-lift">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-subtitle-md text-subtitle-md flex items-center gap-2">
+<span class="material-symbols-outlined">receipt_long</span> Recent Orders
+                    </h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between pb-4 border-b border-surface-variant">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">local_cafe</span>
+</div>
+<div>
+<p class="font-medium text-on-surface">Campus Roasters</p>
+<p class="text-xs text-secondary">Today, 9:41 AM</p>
+</div>
+</div>
+<p class="font-semibold text-primary">-$4.50</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">menu_book</span>
+</div>
+<div>
+<p class="font-medium text-on-surface">Bookstore Print</p>
+<p class="text-xs text-secondary">Yesterday</p>
+</div>
+</div>
+<p class="font-semibold text-primary">-$12.00</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-black/70 backdrop-blur-[30px] text-on-primary font-label-caps text-label-caps border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex justify-around items-center p-2 z-50">
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined">notifications</span>
+</a>
+<!-- Active Tab: person -->
+<a class="relative flex flex-col items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1)" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+</a>
+</nav>
+<style>
+        /* Utility to hide scrollbar for horizontal scrolling lists */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

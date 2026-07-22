@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusHub - Outfit Rating</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#cfc4c5",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#001c3b",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-secondary-container": "#636264",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f3f3f3",
+                        "secondary-container": "#e2dfe1",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "on-surface-variant": "#4c4546",
+                        "surface-container-high": "#e8e8e8",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eeeeee",
+                        "surface-tint": "#5e5e5e",
+                        "primary-container": "#1b1b1b",
+                        "tertiary-fixed-dim": "#b0c8f0",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#c6c6c6",
+                        "on-tertiary-fixed-variant": "#30486a",
+                        "primary-fixed": "#e2e2e2",
+                        "tertiary-fixed": "#d5e3ff",
+                        "outline": "#7e7576",
+                        "on-secondary-fixed": "#1b1b1d",
+                        "secondary-fixed": "#e4e2e4",
+                        "inverse-surface": "#2f3131",
+                        "background": "#f9f9f9",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "on-tertiary-fixed": "#001c3b",
+                        "on-primary-container": "#848484",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary-fixed-variant": "#474747",
+                        "secondary": "#5f5e60",
+                        "surface-dim": "#dadada",
+                        "on-secondary-fixed-variant": "#474649",
+                        "surface-bright": "#f9f9f9",
+                        "primary": "#000000",
+                        "on-tertiary-container": "#6e85aa",
+                        "on-primary-fixed": "#1b1b1b",
+                        "secondary-fixed-dim": "#c8c6c8",
+                        "on-background": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-margin": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "subtitle-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "subtitle-md": ["18px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 40px 40px -15px rgba(0, 0, 0, 0.1);
+        }
+        .canvas-card {
+            background-color: #ffffff;
+            box-shadow: inset 0 0 0 1px #E5E5E7;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg antialiased overflow-x-hidden w-full h-screen flex flex-col">
+<!-- TopAppBar (Web) -->
+<header class="hidden md:flex fixed top-0 w-full z-50 bg-white/70 backdrop-blur-[20px] shadow-[0_40px_40px_-15px_rgba(0,0,0,0.1)] border-b border-white/20">
+<div class="flex justify-between items-center px-container-margin py-stack-md w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4 text-primary">
+<button class="hover:opacity-80 transition-opacity scale-95 duration-200 ease-out">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md tracking-tight">CampusHub</h1>
+</div>
+<nav class="flex gap-8">
+<a class="text-secondary hover:opacity-80 transition-opacity font-subtitle-md flex items-center gap-2" href="#">
+<span class="material-symbols-outlined">home</span>
+                    Home
+                </a>
+<a class="text-primary font-bold hover:opacity-80 transition-opacity font-subtitle-md flex items-center gap-2 border-b-2 border-primary pb-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                    Style
+                </a>
+<a class="text-secondary hover:opacity-80 transition-opacity font-subtitle-md flex items-center gap-2" href="#">
+<span class="material-symbols-outlined">search</span>
+                    Discover
+                </a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity scale-95 duration-200 ease-out text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a stylish college student wearing high-end minimalist fashion, softly lit in a modern, pristine white environment. The overall aesthetic is clean, premium, and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW40mxYIh7qtZBpjj0-bLJbOSBWgNzQkT2E4ZVdYfd28XGJZi8FIiCj8IQhM0KOg4wUhUOwFjPw7XXzGnJQ2VnbdWV9l-TEz5KE3DotWJ_241610svavOyl-kvt7XHHZwIz1Q00JN2pRJQSkUnc6lX6dOxuZI0GbL7eAttPf4EC6yA1OFXHN2YER4DZ6tb2dApu_SLxH8LWEEQDnXmb7DQP4vbGJenWEmAnRlE_s2hO2-ht8f9xVVLAN2UN6c1srum8QdGPzcCa7A"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow relative w-full h-full md:pt-[80px]">
+<!-- Edge-to-Edge Outfit Image -->
+<div class="absolute inset-0 w-full h-full bg-surface-variant">
+<img alt="Outfit Rating" class="w-full h-full object-cover" data-alt="A full-body shot of a fashion-forward individual standing in a minimalist, light-filled architectural space. They are wearing an avant-garde layered outfit with structural shapes in crisp whites and deep blacks. The lighting is diffused and premium, highlighting the textures of the fabric against a stark, clean background. High-fashion editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1VocFZa-yrr-gEy98Zn_GnVMBDJRQqKmLI1nubXjesU8TkjunnU2yVLeIuHdW734CU12uLoG6QG3fMer5KoimfQkVDa_ncev-iK05A4cxUKcy6qLr5LXMkzggMcbCGVnoSJdLqbno5NZpbuHut-JH4Q5XrILla3ter9wdAeOF2ovV0IWlEiuXlMDvQlpKfyhDMHa4KxEj6IZ0Q9mT34xbfYmeX-yb3-3SzUcJUg0-7OqpU127FNVX7VNwyEP--ywYNyZgFkKBP9E"/>
+<!-- Gradient Overlay for readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+</div>
+<!-- Floating UI Overlays -->
+<div class="relative z-10 w-full h-full flex flex-col justify-between px-container-margin py-container-margin max-w-7xl mx-auto pb-32 md:pb-container-margin">
+<!-- Top Section: AI Score & Details -->
+<div class="flex justify-between items-start pt-safe">
+<!-- User Info -->
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full border-2 border-white/50 overflow-hidden shadow-lg">
+<img alt="Creator" class="w-full h-full object-cover" data-alt="A small profile picture of a trendy user against a bright white studio background, looking confident and stylish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk5xs6_1T_6vw_DZi6n2qevSVYSP-KwLaN2nXehmiLrC34qXacij4bOgNC7WRjiLKn8VuobxNES5yl1dplnRvP7epqk2CxA65YiBXsp5reyBqLQtRvd1Cr-tm_EImvt2Zx2XsdJdW83BOa5-MJBAh2qVm9syzd7Ge8ne9HcVbYcEi_ZlgT0RG_BuI9ORjzjmIDWXh7BXJYkeatddo5rVp9DWTsCaV50qATAt6qh4HPIoR00Y6WTd9eaGaORVwMYjg8A-nPUSSL_oo"/>
+</div>
+<div class="text-white drop-shadow-md">
+<p class="font-subtitle-md text-subtitle-md">@alex_styles</p>
+<p class="font-body-sm text-body-sm opacity-80">Design Dept. • 2h ago</p>
+</div>
+</div>
+<!-- AI Style Score Tag -->
+<div class="glass-panel rounded-full px-4 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-headline-md text-headline-md text-primary tracking-tight">94</span>
+<span class="font-label-caps text-label-caps text-secondary ml-1">AI SCORE</span>
+</div>
+</div>
+<!-- Bottom Section: Voting & Trending -->
+<div class="flex flex-col gap-stack-lg w-full max-w-md mx-auto md:max-w-none md:flex-row md:items-end md:justify-between">
+<!-- Trending Tags -->
+<div class="flex gap-2 flex-wrap mb-4 md:mb-0">
+<span class="glass-panel px-4 py-1.5 rounded-full font-label-caps text-label-caps text-primary shadow-sm backdrop-blur-[20px] bg-white/60 border border-white/40">#STREETWEAR</span>
+<span class="glass-panel px-4 py-1.5 rounded-full font-label-caps text-label-caps text-primary shadow-sm backdrop-blur-[20px] bg-white/60 border border-white/40">#MINIMAL</span>
+<span class="glass-panel px-4 py-1.5 rounded-full font-label-caps text-label-caps text-primary shadow-sm backdrop-blur-[20px] bg-white/60 border border-white/40">#MONOCHROME</span>
+</div>
+<!-- Voting Actions -->
+<div class="glass-panel rounded-[2rem] p-4 flex items-center justify-center gap-8 self-center md:self-auto w-full md:w-auto mx-auto border border-white/30 shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
+<button class="flex flex-col items-center gap-1 text-secondary hover:text-primary transition-colors group">
+<div class="w-14 h-14 rounded-full bg-white/50 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-3xl">close</span>
+</div>
+<span class="font-label-caps text-label-caps opacity-70">PASS</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary group">
+<div class="w-16 h-16 rounded-full bg-primary text-on-primary flex items-center justify-center group-hover:scale-110 active:scale-95 transition-all shadow-xl">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<span class="font-label-caps text-label-caps font-bold">FIRE</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-secondary hover:text-primary transition-colors group">
+<div class="w-14 h-14 rounded-full bg-white/50 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+<span class="material-symbols-outlined text-3xl">bookmark</span>
+</div>
+<span class="font-label-caps text-label-caps opacity-70">SAVE</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md rounded-full bg-white/70 backdrop-blur-[30px] border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.1)] flex justify-around items-center p-2 z-50">
+<button class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined">home</span>
+</button>
+<!-- Active Tab -->
+<button class="relative flex flex-col items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 after:content-[''] after:absolute after:-bottom-2 after:w-1 after:h-1 after:bg-primary after:rounded-full hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">search</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary w-12 h-12 hover:scale-110 transition-transform active:scale-90 duration-300">
+<span class="material-symbols-outlined">person</span>
+</button>
+</nav>
+</body></html>
