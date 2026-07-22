@@ -229,6 +229,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
   const [radarGigs, setRadarGigs] = useState<any[]>([]);
   const [dismissedGigIds, setDismissedGigIds] = useState<string[]>([]);
   const [radarLoading, setRadarLoading] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [isSharingGps, setIsSharingGps] = useState<{ [gigId: string]: boolean }>({});
   const watchIdRef = React.useRef<{ [gigId: string]: number }>({});
 
@@ -441,6 +442,9 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
       const res = await getOpenDeliveryGigs();
       if (res.success && res.gigs) {
         setRadarGigs(res.gigs);
+        if (res.currentUserId) {
+          setCurrentUserId(res.currentUserId);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -1208,10 +1212,10 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
                   </div>
 
                   {/* Render Peer Delivery Live Tracker Component if applicable */}
-                  {order.deliveryGig && (
+                  {(order.deliveryType === 'peer_delivery' || order.deliveryGig) && (
                     <div className="mt-2">
                       <PeerDeliveryTracker
-                        gigId={order.deliveryGig.id}
+                        gigId={order.deliveryGig?.id || `gig_${order.id}`}
                         orderId={order.id}
                         deliveryAddress={order.deliveryAddress}
                         deliveryFee={order.deliveryFee}
@@ -1303,7 +1307,7 @@ export default function FoodClient({ foodItems, activeOrders, orderHistory, isFo
             ) : (
               radarGigs.map((gig) => {
                 const parsedItems = JSON.parse(gig.order.items) as Array<{ name: string; quantity: number }>;
-                const isMyAcceptedGig = gig.delivererId && gig.deliverer;
+                const isMyAcceptedGig = (currentUserId && gig.delivererId === currentUserId) || (currentUserId && gig.deliverer?.id === currentUserId);
                 const isGpsActive = isSharingGps[gig.id];
 
                 return (
