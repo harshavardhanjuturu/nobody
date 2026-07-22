@@ -591,16 +591,13 @@ export default function LoginPage() {
     if (!res.success) { setError(res.error || 'Invalid verification code.'); return; }
 
     if (!res.needsOnboarding) {
-      if (res.user?.role === 'admin') {
-        window.location.href = '/admin';
-        return;
-      }
-      setStep('splash');
+      window.location.href = res.user?.role === 'admin' ? '/admin' : '/';
+      return;
     } else {
       setPendingPhone(res.phoneNumber || phoneNumber);
       setPendingEmail(res.email || email);
       setPendingName(name);
-      setStep('splash');
+      setStep('onboarding');
     }
   };
 
