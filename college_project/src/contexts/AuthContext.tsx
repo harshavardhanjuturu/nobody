@@ -93,7 +93,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    await logoutAction();
+    try {
+      await logoutAction();
+    } catch (e) {
+      console.warn('Logout action error:', e);
+    }
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+      } catch (e) {}
+      window.location.href = '/login';
+    }
     setUser(null);
   };
 

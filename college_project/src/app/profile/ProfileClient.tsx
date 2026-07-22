@@ -120,8 +120,12 @@ export default function ProfileClient({ initialUser, stats }: ProfileClientProps
   };
 
   const handleSignOut = async () => {
-    await logout();
-    router.push('/login');
+    try {
+      await logout();
+    } catch (e) {
+      console.warn('Sign out error:', e);
+    }
+    window.location.href = '/login';
   };
 
   return (

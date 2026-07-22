@@ -144,8 +144,12 @@ export function SidebarDrawer({ isOpen, onClose, userRole }: { isOpen: boolean; 
             <button
               onClick={async () => {
                 onClose();
-                await logout();
-                router.push('/login');
+                try {
+                  await logout();
+                } catch (e) {
+                  console.warn('Logout error:', e);
+                }
+                window.location.href = '/login';
               }}
               className="flex items-center gap-4 px-4 py-3 w-full rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-all font-medium cursor-pointer"
             >
