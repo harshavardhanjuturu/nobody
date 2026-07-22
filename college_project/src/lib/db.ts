@@ -1,29 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
-import path from 'path';
-import fs from 'fs';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
 
-function getDbPath() {
-  const defaultPath = path.join(process.cwd(), 'prisma', 'dev.db');
-
-  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
-    const tmpPath = path.join('/tmp', 'dev.db');
-    if (!fs.existsSync(tmpPath)) {
-      try {
-        if (fs.existsSync(defaultPath)) {
-          fs.copyFileSync(defaultPath, tmpPath);
-        }
-      } catch (err) {
-        console.error('Error copying DB to /tmp:', err);
-      }
-    }
-    return 'file:' + tmpPath;
-  }
-
-  return 'file:' + defaultPath;
-}
-
-const adapter = new PrismaBetterSqlite3({ url: getDbPath() });
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
