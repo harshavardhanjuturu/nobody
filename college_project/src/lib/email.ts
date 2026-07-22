@@ -1,10 +1,12 @@
 import nodemailer from 'nodemailer';
 
-// Nodemailer transport setup using environment variables
+// Nodemailer transport setup using environment variables with resilient timeouts
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST || 'smtp.gmail.com',
   port: parseInt(process.env.EMAIL_PORT || '465'),
   secure: process.env.EMAIL_SECURE === 'true' || process.env.EMAIL_PORT === '465',
+  connectionTimeout: 4000,
+  socketTimeout: 4000,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,

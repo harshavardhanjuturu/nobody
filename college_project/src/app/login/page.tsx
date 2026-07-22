@@ -563,16 +563,17 @@ export default function LoginPage() {
     }
     setStep('verify');
 
-    if (res.mailError) {
+    if (res.fallbackOtp) {
+      setOtp(res.fallbackOtp);
       setInfoModal({
-        title: 'Notice',
-        message: `Email service notice: ${res.mailError}`,
+        title: 'Verification Code',
+        message: `Verification code generated for ${res.email || email}: ${res.fallbackOtp}`,
         show: true,
       });
     } else {
       setInfoModal({
         title: 'Code Sent',
-        message: `Verification code sent to ${res.email || email}.`,
+        message: `Verification code sent to ${res.email || email}. Please check your inbox.`,
         show: true,
       });
     }

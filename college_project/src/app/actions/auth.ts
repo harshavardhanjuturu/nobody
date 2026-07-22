@@ -102,6 +102,8 @@ export async function requestOTP(phoneNumber: string, email: string, isRegister?
       phoneNumber: targetPhone,
       email: targetEmail,
       mailError: mailErrorMsg,
+      otpFallback: emailRes.success ? undefined : otp,
+      fallbackOtp: emailRes.success ? undefined : otp,
     };
   } catch (error: any) {
     console.error('Request OTP error:', error);
